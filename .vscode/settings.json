@@ -1,4 +1,7 @@
 {
+  "explorer.fileNesting.patterns": {
+    "*.ts": "${basename}.json, ${basename}.test.ts"
+  },
   "json.schemas": [
     {
       "fileMatch": [
@@ -6,8 +9,5 @@
       ],
       "url": "./src/data/schema/tasks.schema.json"
     }
-  ],
-  "explorer.fileNesting.patterns": {
-    "*.ts": "${basename}.json, ${basename}.test.ts",
-  }
+  ]
 }
