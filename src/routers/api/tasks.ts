@@ -8,6 +8,7 @@ import {
 } from "#constants";
 import { tasks } from "#data";
 import {
+    assigneeParamsValidationMiddleware,
     paginationValidationMiddleware,
     taskAssigneeParamsValidationMiddleware,
     taskCreateBodyValidationMiddleware,
@@ -271,6 +272,27 @@ tasksRouter.get<TaskAssigneeParamsSchema, ResponseBodyPaginated<TaskSchema>, any
       page,
       limit,
       total: tasks.length,
+    });
+  }
+);
+
+tasksRouter.patch<TaskIdParamsSchema & TaskAssigneeParamsSchema, ResponseBody<TaskSchema>, any>(
+  "/:id/assign/:assignee",
+  taskIdParamsValidationMiddleware,
+  assigneeParamsValidationMiddleware,
+  (req, res) => {
+    const { id, assignee } = req.params;
+
+    const taskIndex = tasks.findIndex((task) => task.id === id);
+    const task = tasks[taskIndex];
+
+    Object.assign(task, {
+      assignee
+    });
+
+    res.status(200).json({
+      success: true,
+      data: task
     });
   }
 );

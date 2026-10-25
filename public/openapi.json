@@ -152,6 +152,21 @@
         }
       }
     },
+    "/api/v1/tasks/{id}/assign/{assignee}": {
+      "patch": {
+        "tags": ["Tasks"],
+        "summary": "Assign a task to an assignee",
+        "parameters": [
+          { "$ref": "#/components/parameters/taskId" },
+          { "$ref": "#/components/parameters/assignee" }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/responses/Task" },
+          "400": { "$ref": "#/components/responses/Error" },
+          "404": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
     "/api/v1/reports/summary": {
       "get": {
         "tags": ["Reports"],
@@ -210,11 +225,17 @@
   },
   "components": {
     "parameters": {
-      "TaskId": {
+      "taskId": {
         "name": "id",
         "in": "path",
         "required": true,
         "schema": { "type": "string", "format": "uuid" }
+      },
+      "assignee": {
+        "name": "assignee",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "string", "minLength": 3, "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" }
       },
       "Page": {
         "name": "page",

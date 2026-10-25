@@ -106,6 +106,20 @@ export const taskAssigneeParamsValidationMiddleware: RequestHandler = (req, res,
 }
 
 /**
+ * Validate assignee request params
+ */
+export const assigneeParamsValidationMiddleware: RequestHandler = (req, res, next) => {
+  const result = validateTaskAssigneeParams(req.params);
+
+  if (!result?.success) {
+    res.status(400).errors(result.error);
+    return;
+  }
+
+  next();
+}
+
+/**
  * Validate task create request body
  */
 export const taskCreateBodyValidationMiddleware: RequestHandler = (req, res, next) => {
