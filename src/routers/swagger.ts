@@ -3,6 +3,6 @@ import { getAbsoluteFSPath } from "swagger-ui-dist";
 
 const swaggerRouter = Router();
 
-swaggerRouter.use("/assets", express.static(getAbsoluteFSPath()));
+swaggerRouter.use("/", express.static(getAbsoluteFSPath()));
 
 export default swaggerRouter;
