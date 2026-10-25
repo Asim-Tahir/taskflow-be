@@ -69,8 +69,8 @@
         "summary": "Search task titles and descriptions",
         "parameters": [
           { "name": "keyword", "in": "query", "schema": { "type": "string" } },
-          { "$ref": "#/components/parameters/Page" },
-          { "$ref": "#/components/parameters/Limit" }
+          { "$ref": "#/components/parameters/page" },
+          { "$ref": "#/components/parameters/limit" }
         ],
         "responses": {
           "200": { "$ref": "#/components/responses/TaskList" },
@@ -80,7 +80,7 @@
     },
     "/api/v1/tasks/{id}": {
       "parameters": [
-        { "$ref": "#/components/parameters/TaskId" }
+        { "$ref": "#/components/parameters/taskId" }
       ],
       "get": {
         "tags": ["Tasks"],
@@ -137,8 +137,8 @@
         "summary": "List tasks assigned to a team member",
         "parameters": [
           { "$ref": "#/components/parameters/assignee" },
-          { "$ref": "#/components/parameters/Page" },
-          { "$ref": "#/components/parameters/Limit" }
+          { "$ref": "#/components/parameters/page" },
+          { "$ref": "#/components/parameters/limit" }
         ],
         "responses": {
           "200": { "$ref": "#/components/responses/TaskList" },
@@ -208,8 +208,8 @@
             "required": true,
             "schema": { "type": "string", "enum": ["pending", "completed"] }
           },
-          { "$ref": "#/components/parameters/Page" },
-          { "$ref": "#/components/parameters/Limit" }
+          { "$ref": "#/components/parameters/page" },
+          { "$ref": "#/components/parameters/limit" }
         ],
         "responses": {
           "200": { "$ref": "#/components/responses/TaskList" },
@@ -232,13 +232,13 @@
         "required": true,
         "schema": { "type": "string", "minLength": 3, "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" }
       },
-      "Page": {
+      "page": {
         "name": "page",
         "in": "query",
         "description": "Page number, from 1 to 99. Defaults to 1.",
         "schema": { "type": "integer", "minimum": 1, "maximum": 99, "default": 1 }
       },
-      "Limit": {
+      "limit": {
         "name": "limit",
         "in": "query",
         "description": "Page size, from 1 to 99. Defaults to 10.",
