@@ -136,12 +136,7 @@
         "tags": ["Tasks"],
         "summary": "List tasks assigned to a team member",
         "parameters": [
-          {
-            "name": "assignee",
-            "in": "path",
-            "required": true,
-            "schema": { "type": "string", "minLength": 3, "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" }
-          },
+          { "$ref": "#/components/parameters/assignee" },
           { "$ref": "#/components/parameters/Page" },
           { "$ref": "#/components/parameters/Limit" }
         ],
