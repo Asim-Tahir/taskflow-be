@@ -2,12 +2,14 @@ import { Router } from "express";
 import type { ParamsDictionary } from "express-serve-static-core";
 
 import { TASK_UNASSIGNED_ASSIGNEE } from "#constants";
-import { tasks } from "#data";
 import { taskReportsStatusParamsValidationMiddleware } from "#middlewares";
+import { TasksLowDBRepository } from "#repositories";
 import type { TaskPrioritySchema, TaskReportsStatusParamsSchema, TaskSchema, TaskStatusSchema } from "#schema";
 import type { ResponseBody, ResponseBodyPaginated } from "#types";
 
 const reportsRouter = Router();
+
+const repository = await TasksLowDBRepository.open();
 
 interface ReportsSummaryResponseData {
   total: number;
@@ -18,7 +20,9 @@ interface ReportsSummaryResponseData {
   }
 }
 
-reportsRouter.get<ParamsDictionary, ResponseBody<ReportsSummaryResponseData>, any>("/summary", (_req, res) => {
+reportsRouter.get<ParamsDictionary, ResponseBody<ReportsSummaryResponseData>, any>("/summary", async (_req, res) => {
+  const tasks = await repository.getAllAsync();
+
   const groupedTasksByStatus = Map.groupBy(tasks, (task) => task.status);
   const groupedTasksByPriority = Map.groupBy(tasks, (task) => task.priority);
   const groupedTasksByAssignee = Map.groupBy(tasks, (task) => task.assignee ?? TASK_UNASSIGNED_ASSIGNEE);
@@ -57,10 +61,12 @@ reportsRouter.get<ParamsDictionary, ResponseBody<ReportsSummaryResponseData>, an
 reportsRouter.get<TaskReportsStatusParamsSchema, ResponseBodyPaginated<TaskSchema>, any>(
   "/:status",
   taskReportsStatusParamsValidationMiddleware,
-  (req, res) => {
+  async (req, res) => {
     const { page, limit, startIndex, endIndex } = req.paginate();
 
     const { status } = req.params;
+
+    const tasks = await repository.getAllAsync();
 
     const groupedTasksByStatus = Map.groupBy(tasks, (task) => task.status);
 
