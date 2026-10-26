@@ -1,0 +1,218 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "id": "7846572f-f189-497a-993f-2e70d967e5cb",
+  "prevIds": [
+    "00000000-0000-0000-0000-000000000000"
+  ],
+  "ddl": [
+    {
+      "name": "tasks",
+      "entityType": "tables"
+    },
+    {
+      "table": "tasks",
+      "name": "id",
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "tasks",
+      "name": "created_at",
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "tasks",
+      "name": "updated_at",
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "tasks",
+      "name": "deleted_at",
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "tasks",
+      "name": "is_deleted",
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": false,
+      "default": "false",
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "tasks",
+      "name": "title",
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "tasks",
+      "name": "description",
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "tasks",
+      "name": "status",
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "tasks",
+      "name": "priority",
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "tasks",
+      "name": "assignee",
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "tasks",
+      "name": "tasks_title_idx",
+      "columns": [
+        {
+          "value": "title",
+          "isExpression": false
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "origin": "manual",
+      "entityType": "indexes"
+    },
+    {
+      "table": "tasks",
+      "name": "tasks_description_idx",
+      "columns": [
+        {
+          "value": "description",
+          "isExpression": false
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "origin": "manual",
+      "entityType": "indexes"
+    },
+    {
+      "table": "tasks",
+      "name": "tasks_status_idx",
+      "columns": [
+        {
+          "value": "status",
+          "isExpression": false
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "origin": "manual",
+      "entityType": "indexes"
+    },
+    {
+      "table": "tasks",
+      "name": "tasks_priority_idx",
+      "columns": [
+        {
+          "value": "priority",
+          "isExpression": false
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "origin": "manual",
+      "entityType": "indexes"
+    },
+    {
+      "table": "tasks",
+      "name": "tasks_assignee_idx",
+      "columns": [
+        {
+          "value": "assignee",
+          "isExpression": false
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "origin": "manual",
+      "entityType": "indexes"
+    },
+    {
+      "table": "tasks",
+      "name": "tasks_pk",
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "table": "tasks",
+      "name": "tasks_title_min_length",
+      "value": "length(\"title\") >= 3",
+      "entityType": "checks"
+    },
+    {
+      "table": "tasks",
+      "name": "tasks_description_min_length",
+      "value": "length(\"description\") >= 16",
+      "entityType": "checks"
+    },
+    {
+      "table": "tasks",
+      "name": "tasks_assignee_min_length",
+      "value": "length(\"assignee\") >= 3",
+      "entityType": "checks"
+    },
+    {
+      "table": "tasks",
+      "name": "tasks_assignee_format",
+      "value": "\n        \"assignee\" NOT GLOB '*[^-a-z0-9]*'\n        AND \"assignee\" NOT GLOB '-*'\n        AND \"assignee\" NOT GLOB '*-'\n        AND \"assignee\" NOT GLOB '*--*'\n      ",
+      "entityType": "checks"
+    }
+  ],
+  "renames": []
+}
