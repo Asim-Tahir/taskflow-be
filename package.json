@@ -18,10 +18,6 @@
       "default": "./src/types/index.d.ts",
       "import": "./src/types/index.d.ts"
     },
-    "#src/*": {
-      "default": "./src/*.ts",
-      "import": "./src/*.ts"
-    },
     "#env": {
       "default": "./src/constants/env.ts",
       "import": "./src/constants/env.ts"
@@ -29,6 +25,10 @@
     "#*": {
       "default": "./src/*/index.ts",
       "import": "./src/*/index.ts"
+    },
+    "#src/*": {
+      "default": "./src/*.ts",
+      "import": "./src/*.ts"
     }
   },
   "scripts": {
