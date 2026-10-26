@@ -1,5 +1,5 @@
-import fs from "node:fs/promises";
 import type { PathLike } from "node:fs";
+import fs from "node:fs/promises";
 
 /**
  * Checks if a file exists at the given path.
