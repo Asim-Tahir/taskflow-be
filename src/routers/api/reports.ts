@@ -9,8 +9,6 @@ import type { ResponseBody, ResponseBodyPaginated } from "#types";
 
 const reportsRouter = Router();
 
-const repository = await TasksLowDBRepository.open();
-
 interface ReportsSummaryResponseData {
   total: number;
   breakdown: {
@@ -21,6 +19,7 @@ interface ReportsSummaryResponseData {
 }
 
 reportsRouter.get<ParamsDictionary, ResponseBody<ReportsSummaryResponseData>, any>("/summary", async (_req, res) => {
+  const repository = await TasksLowDBRepository.open();
   const tasks = await repository.getAllAsync();
 
   const groupedTasksByStatus = Map.groupBy(tasks, (task) => task.status);
@@ -66,6 +65,7 @@ reportsRouter.get<TaskReportsStatusParamsSchema, ResponseBodyPaginated<TaskSchem
 
     const { status } = req.params;
 
+    const repository = await TasksLowDBRepository.open();
     const tasks = await repository.getAllAsync();
 
     const groupedTasksByStatus = Map.groupBy(tasks, (task) => task.status);
