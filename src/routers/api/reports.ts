@@ -18,45 +18,48 @@ interface ReportsSummaryResponseData {
   }
 }
 
-reportsRouter.get<ParamsDictionary, ResponseBody<ReportsSummaryResponseData>, any>("/summary", async (_req, res) => {
-  const repository = await TasksLowDBRepository.open();
-  // const repository = TasksFileSystemRepository.open();
-  const tasks = await repository.getAllAsync();
+reportsRouter.get<ParamsDictionary, ResponseBody<ReportsSummaryResponseData>, any>(
+  "/summary",
+  async (_req, res) => {
+    const repository = await TasksLowDBRepository.open();
+    // const repository = TasksFileSystemRepository.open();
+    const tasks = await repository.getAllAsync();
 
-  const groupedTasksByStatus = Map.groupBy(tasks, (task) => task.status);
-  const groupedTasksByPriority = Map.groupBy(tasks, (task) => task.priority);
-  const groupedTasksByAssignee = Map.groupBy(tasks, (task) => task.assignee ?? TASK_UNASSIGNED_ASSIGNEE);
+    const groupedTasksByStatus = Map.groupBy(tasks, (task) => task.status);
+    const groupedTasksByPriority = Map.groupBy(tasks, (task) => task.priority);
+    const groupedTasksByAssignee = Map.groupBy(tasks, (task) => task.assignee ?? TASK_UNASSIGNED_ASSIGNEE);
 
-  const statusBreakdown = Array.from(groupedTasksByStatus.entries()).reduce((prev, [key, group]) => {
-    prev[key] = group?.length ?? 0;
+    const statusBreakdown = Array.from(groupedTasksByStatus.entries()).reduce((prev, [key, group]) => {
+      prev[key] = group?.length ?? 0;
 
-    return prev;
-  }, {} as Record<TaskStatusSchema, number>);
+      return prev;
+    }, {} as Record<TaskStatusSchema, number>);
 
-  const priorityBreakdown = Array.from(groupedTasksByPriority.entries()).reduce((prev, [key, group]) => {
-    prev[key] = group?.length ?? 0;
+    const priorityBreakdown = Array.from(groupedTasksByPriority.entries()).reduce((prev, [key, group]) => {
+      prev[key] = group?.length ?? 0;
 
-    return prev;
-  }, {} as Record<TaskPrioritySchema, number>);
+      return prev;
+    }, {} as Record<TaskPrioritySchema, number>);
 
-  const assigneeBreakdown = Array.from(groupedTasksByAssignee.entries()).reduce((prev, [key, group]) => {
-    prev[key] = group?.length ?? 0;
+    const assigneeBreakdown = Array.from(groupedTasksByAssignee.entries()).reduce((prev, [key, group]) => {
+      prev[key] = group?.length ?? 0;
 
-    return prev;
-  }, {} as Record<string, number>);
+      return prev;
+    }, {} as Record<string, number>);
 
-  res.status(200).json({
-    success: true,
-    data: {
-      total: tasks.length,
-      breakdown: {
-        status: statusBreakdown,
-        priority: priorityBreakdown,
-        assignee: assigneeBreakdown
-      },
-    }
-  });
-});
+    res.status(200).json({
+      success: true,
+      data: {
+        total: tasks.length,
+        breakdown: {
+          status: statusBreakdown,
+          priority: priorityBreakdown,
+          assignee: assigneeBreakdown
+        },
+      }
+    });
+  }
+);
 
 reportsRouter.get<TaskReportsStatusParamsSchema, ResponseBodyPaginated<TaskSchema>, any>(
   "/:status",
