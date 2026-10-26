@@ -2,8 +2,8 @@
   "name": "taskflow",
   "version": "1.0.0",
   "description": "Task and Project management system",
-  "module": "src/index.ts",
   "type": "module",
+  "module": "src/index.ts",
   "imports": {
     "#lib/*": {
       "default": "./src/lib/*/index.ts",
@@ -35,6 +35,7 @@
     "start": "cross-env NODE_ENV=production node src/index.ts",
     "dev": "cross-env NODE_ENV=development node --watch src/index.ts",
     "test": "cross-env NODE_ENV=test node --test-global-setup=./tests/setup-tests.ts --test",
+    "db:seed": "node scripts/db/seed.ts",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "fmt": "oxfmt --check",
