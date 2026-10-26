@@ -6,7 +6,6 @@ import {
     SORTATION_TASK_STATUS_ORDER,
     TASK_UNASSIGNED_ASSIGNEE
 } from "#constants";
-import { tasks } from "#data";
 import {
     assigneeParamsValidationMiddleware,
     paginationValidationMiddleware,
@@ -19,6 +18,7 @@ import {
     taskSortationQueryValidationMiddleware,
     taskUpdateBodyValidationMiddleware
 } from "#middlewares";
+import { TasksLowDBRepository } from "#repositories";
 import type {
     TaskAssigneeParamsSchema,
     TaskCreateSchema,
@@ -34,14 +34,17 @@ import type { ResponseBody, ResponseBodyPaginated } from "#types";
 
 const tasksRouter = Router();
 
+await using repository = await TasksLowDBRepository.open();
+
 tasksRouter.get<ParamsDictionary, ResponseBodyPaginated<TaskSchema>, any, TaskFilterQuerySchema & TaskSortationQuerySchema>("/",
   paginationValidationMiddleware,
   taskSortationQueryValidationMiddleware,
   taskFilterQueryValidationMiddleware,
-  (req, res) => {
+  async (req, res) => {
     const { title, description, status, priority, assignee, sort = "title", order = "asc" } = req.query;
     const { page, limit, startIndex, endIndex } = req.paginate();
 
+    const tasks = await repository.getAllAsync();
     let filteredTasks = structuredClone(tasks);
 
     if (title) {
@@ -136,11 +139,12 @@ tasksRouter.get<ParamsDictionary, ResponseBodyPaginated<TaskSchema>, any, TaskFi
   },
 );
 
-tasksRouter.get<ParamsDictionary, ResponseBodyPaginated<TaskSchema>, any, TaskSearchQuerySchema>("/search", taskSearchQueryValidationMiddleware, (req, res) => {
+tasksRouter.get<ParamsDictionary, ResponseBodyPaginated<TaskSchema>, any, TaskSearchQuerySchema>("/search", taskSearchQueryValidationMiddleware, async (req, res) => {
   const { page, limit, startIndex, endIndex } = req.paginate();
   
   const { keyword } = req.query;
 
+  const tasks = await repository.getAllAsync();
   let filteredTasks = structuredClone(tasks);
 
   if (keyword) {
@@ -158,30 +162,26 @@ tasksRouter.get<ParamsDictionary, ResponseBodyPaginated<TaskSchema>, any, TaskSe
   });
 });
 
-tasksRouter.get<TaskIdParamsSchema, ResponseBody<TaskSchema>, TaskSchema>("/:id", taskIdParamsValidationMiddleware, (req, res) => {
+tasksRouter.get<TaskIdParamsSchema, ResponseBody<TaskSchema | null>, TaskSchema>("/:id", taskIdParamsValidationMiddleware, async (req, res) => {
   const { id } = req.params;
 
-  const taskIndex = tasks.findIndex((task) => task.id === id);
-  const task = tasks[taskIndex];
+  const task = await repository.getByIdAsync(id);
 
   res.status(200).json({
     success: true,
-    data: task
+    data: task ?? null
   });
 });
 
 tasksRouter.post<ParamsDictionary, ResponseBody<TaskSchema>, TaskCreateSchema>(
   "/",
   taskCreateBodyValidationMiddleware,
-  (req, res) => {
+  async (req, res) => {
     const creatingTask = req.body;
-    const createdTask = {
-      id: crypto.randomUUID(),
-      createdAt: new Date().toISOString(),
-      ...creatingTask
-    };
 
-    tasks.push(createdTask);
+    const createdTask = await repository.createAsync(creatingTask);
+
+    await repository.writeFileAsync();
 
     res.status(201).json({
       success: true,
@@ -194,18 +194,17 @@ tasksRouter.put<TaskIdParamsSchema, ResponseBody<TaskSchema>, TaskUpdateSchema>(
   "/:id",
   taskIdParamsValidationMiddleware,
   taskUpdateBodyValidationMiddleware,
-  (req, res) => {
+  async (req, res) => {
     const { id } = req.params;
     const updatingTask = req.body;
 
-    const taskIndex = tasks.findIndex((task) => task.id === id);
-    const task = tasks[taskIndex];
+    const updatedTask = await repository.updateAsync(id, updatingTask);
 
-    Object.assign(task, updatingTask);
+    await repository.writeFileAsync();
 
     res.status(200).json({
       success: true,
-      data: task
+      data: updatedTask
     });
   }
 );
@@ -214,21 +213,17 @@ tasksRouter.patch<TaskIdParamsSchema, ResponseBody<TaskSchema>, TaskPartialUpdat
   "/:id",
   taskIdParamsValidationMiddleware,
   taskPartialUpdateBodyValidationMiddleware,
-  (req, res) => {
+  async (req, res) => {
     const { id } = req.params;
     const partiallyUpdatingTask = req.body;
 
-    const taskIndex = tasks.findIndex((task) => task.id === id);
-    const task = tasks[taskIndex];
+    const partiallyUpdatedTask = await repository.partialUpdateAsync(id, partiallyUpdatingTask);
 
-    tasks[taskIndex] = {
-      ...task,
-      ...partiallyUpdatingTask
-    };
+    await repository.writeFileAsync();
 
     res.status(200).json({
       success: true,
-      data: task
+      data: partiallyUpdatedTask
     });
   }
 )
@@ -236,16 +231,16 @@ tasksRouter.patch<TaskIdParamsSchema, ResponseBody<TaskSchema>, TaskPartialUpdat
 tasksRouter.delete<TaskIdParamsSchema, ResponseBody<TaskSchema>, any>(
   "/:id",
   taskIdParamsValidationMiddleware,
-  (req, res) => {
+  async (req, res) => {
     const { id } = req.params;
 
-    const taskIndex = tasks.findIndex((task) => task.id === id);
+    const deletedTask = await repository.deleteAsync(id);
 
-    const deletedTasks = tasks.splice(taskIndex, 1);
+    await repository.writeFileAsync();
 
     res.status(200).json({
       success: true,
-      data: deletedTasks[0],
+      data: deletedTask,
       message: `Task with ID "${id}" deleted`
     });
   }
@@ -254,10 +249,11 @@ tasksRouter.delete<TaskIdParamsSchema, ResponseBody<TaskSchema>, any>(
 tasksRouter.get<TaskAssigneeParamsSchema, ResponseBodyPaginated<TaskSchema>, any>(
   "/assignee/:assignee",
   taskAssigneeParamsValidationMiddleware,
-  (req, res) => {
+  async (req, res) => {
     const { assignee } = req.params;
     const { page, limit, startIndex, endIndex } = req.paginate();
 
+    const tasks = await repository.getAllAsync();
     let filteredTasks = structuredClone(tasks);
 
     if (assignee) {
@@ -280,19 +276,16 @@ tasksRouter.patch<TaskIdParamsSchema & TaskAssigneeParamsSchema, ResponseBody<Ta
   "/:id/assign/:assignee",
   taskIdParamsValidationMiddleware,
   assigneeParamsValidationMiddleware,
-  (req, res) => {
+  async (req, res) => {
     const { id, assignee } = req.params;
 
-    const taskIndex = tasks.findIndex((task) => task.id === id);
-    const task = tasks[taskIndex];
+    const assignedTask = await repository.assignAsync(id, assignee);
 
-    Object.assign(task, {
-      assignee
-    });
+    await repository.writeFileAsync();
 
     res.status(200).json({
       success: true,
-      data: task
+      data: assignedTask
     });
   }
 );
