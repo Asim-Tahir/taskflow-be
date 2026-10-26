@@ -7,7 +7,7 @@ import type { BaseEntitySchema } from "#schema";
 
 import type IBaseRepository from "./IBaseRepository.ts";
 
-export default class LowDBRepository<T extends BaseEntitySchema = BaseEntitySchema> implements IBaseRepository<T> {
+export default class LowDBRepository<T extends BaseEntitySchema = BaseEntitySchema> implements IBaseRepository<T>, AsyncDisposable {
   protected db: Low<T[]>;
 
   /**
@@ -36,6 +36,10 @@ export default class LowDBRepository<T extends BaseEntitySchema = BaseEntitySche
     this.instance = this.instance ?? new this(this.db);
 
     return this.instance;
+  }
+
+  async [Symbol.asyncDispose]() {
+    await this.writeFileAsync();
   }
 
   async readFileAsync() {
