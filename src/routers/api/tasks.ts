@@ -34,7 +34,8 @@ import type { ResponseBody, ResponseBodyPaginated } from "#types";
 
 const tasksRouter = Router();
 
-tasksRouter.get<ParamsDictionary, ResponseBodyPaginated<TaskSchema>, any, TaskFilterQuerySchema & TaskSortationQuerySchema>("/",
+tasksRouter.get<ParamsDictionary, ResponseBodyPaginated<TaskSchema>, any, TaskFilterQuerySchema & TaskSortationQuerySchema>(
+  "/",
   paginationValidationMiddleware,
   taskSortationQueryValidationMiddleware,
   taskFilterQueryValidationMiddleware,
@@ -140,44 +141,52 @@ tasksRouter.get<ParamsDictionary, ResponseBodyPaginated<TaskSchema>, any, TaskFi
   },
 );
 
-tasksRouter.get<ParamsDictionary, ResponseBodyPaginated<TaskSchema>, any, TaskSearchQuerySchema>("/search", taskSearchQueryValidationMiddleware, async (req, res) => {
-  const { page, limit, startIndex, endIndex } = req.paginate();
-  
-  const { keyword } = req.query;
-  
-  const repository = await TasksLowDBRepository.open();
-  // const repository = TasksFileSystemRepository.open();
-  const tasks = await repository.getAllAsync();
+tasksRouter.get<ParamsDictionary, ResponseBodyPaginated<TaskSchema>, any, TaskSearchQuerySchema>(
+  "/search",
+  taskSearchQueryValidationMiddleware,
+  async (req, res) => {
+    const { page, limit, startIndex, endIndex } = req.paginate();
+    
+    const { keyword } = req.query;
+    
+    const repository = await TasksLowDBRepository.open();
+    // const repository = TasksFileSystemRepository.open();
+    const tasks = await repository.getAllAsync();
 
-  let filteredTasks = structuredClone(tasks);
+    let filteredTasks = structuredClone(tasks);
 
-  if (keyword) {
-    filteredTasks = filteredTasks.filter((task) => task.title.includes(keyword) || task.description?.includes(keyword));
+    if (keyword) {
+      filteredTasks = filteredTasks.filter((task) => task.title.includes(keyword) || task.description?.includes(keyword));
+    }
+
+    filteredTasks = filteredTasks.slice(startIndex, endIndex);
+
+    res.status(200).json({
+      success: true,
+      data: filteredTasks,
+      page,
+      limit,
+      total: tasks.length,
+    });
   }
+);
 
-  filteredTasks = filteredTasks.slice(startIndex, endIndex);
+tasksRouter.get<TaskIdParamsSchema, ResponseBody<TaskSchema | null>, TaskSchema>(
+  "/:id",
+  taskIdParamsValidationMiddleware,
+  async (req, res) => {
+    const { id } = req.params;
 
-  res.status(200).json({
-    success: true,
-    data: filteredTasks,
-    page,
-    limit,
-    total: tasks.length,
-  });
-});
+    const repository = await TasksLowDBRepository.open();
+    // const repository = TasksFileSystemRepository.open();
+    const task = await repository.getByIdAsync(id);
 
-tasksRouter.get<TaskIdParamsSchema, ResponseBody<TaskSchema | null>, TaskSchema>("/:id", taskIdParamsValidationMiddleware, async (req, res) => {
-  const { id } = req.params;
-
-  const repository = await TasksLowDBRepository.open();
-  // const repository = TasksFileSystemRepository.open();
-  const task = await repository.getByIdAsync(id);
-
-  res.status(200).json({
-    success: true,
-    data: task ?? null
-  });
-});
+    res.status(200).json({
+      success: true,
+      data: task ?? null
+    });
+  }
+);
 
 tasksRouter.post<ParamsDictionary, ResponseBody<TaskSchema>, TaskCreateSchema>(
   "/",
