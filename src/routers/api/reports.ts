@@ -20,6 +20,7 @@ interface ReportsSummaryResponseData {
 
 reportsRouter.get<ParamsDictionary, ResponseBody<ReportsSummaryResponseData>, any>("/summary", async (_req, res) => {
   const repository = await TasksLowDBRepository.open();
+  // const repository = TasksFileSystemRepository.open();
   const tasks = await repository.getAllAsync();
 
   const groupedTasksByStatus = Map.groupBy(tasks, (task) => task.status);
@@ -66,6 +67,7 @@ reportsRouter.get<TaskReportsStatusParamsSchema, ResponseBodyPaginated<TaskSchem
     const { status } = req.params;
 
     const repository = await TasksLowDBRepository.open();
+    // const repository = TasksFileSystemRepository.open();
     const tasks = await repository.getAllAsync();
 
     const groupedTasksByStatus = Map.groupBy(tasks, (task) => task.status);
