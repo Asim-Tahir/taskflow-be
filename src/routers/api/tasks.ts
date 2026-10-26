@@ -34,8 +34,6 @@ import type { ResponseBody, ResponseBodyPaginated } from "#types";
 
 const tasksRouter = Router();
 
-await using repository = await TasksLowDBRepository.open();
-
 tasksRouter.get<ParamsDictionary, ResponseBodyPaginated<TaskSchema>, any, TaskFilterQuerySchema & TaskSortationQuerySchema>("/",
   paginationValidationMiddleware,
   taskSortationQueryValidationMiddleware,
@@ -44,7 +42,9 @@ tasksRouter.get<ParamsDictionary, ResponseBodyPaginated<TaskSchema>, any, TaskFi
     const { title, description, status, priority, assignee, sort = "title", order = "asc" } = req.query;
     const { page, limit, startIndex, endIndex } = req.paginate();
 
+    const repository = await TasksLowDBRepository.open();
     const tasks = await repository.getAllAsync();
+
     let filteredTasks = structuredClone(tasks);
 
     if (title) {
@@ -143,8 +143,10 @@ tasksRouter.get<ParamsDictionary, ResponseBodyPaginated<TaskSchema>, any, TaskSe
   const { page, limit, startIndex, endIndex } = req.paginate();
   
   const { keyword } = req.query;
-
+  
+  const repository = await TasksLowDBRepository.open();
   const tasks = await repository.getAllAsync();
+
   let filteredTasks = structuredClone(tasks);
 
   if (keyword) {
@@ -165,6 +167,7 @@ tasksRouter.get<ParamsDictionary, ResponseBodyPaginated<TaskSchema>, any, TaskSe
 tasksRouter.get<TaskIdParamsSchema, ResponseBody<TaskSchema | null>, TaskSchema>("/:id", taskIdParamsValidationMiddleware, async (req, res) => {
   const { id } = req.params;
 
+  const repository = await TasksLowDBRepository.open();
   const task = await repository.getByIdAsync(id);
 
   res.status(200).json({
@@ -179,9 +182,8 @@ tasksRouter.post<ParamsDictionary, ResponseBody<TaskSchema>, TaskCreateSchema>(
   async (req, res) => {
     const creatingTask = req.body;
 
+    await using repository = await TasksLowDBRepository.open();
     const createdTask = await repository.createAsync(creatingTask);
-
-    await repository.writeFileAsync();
 
     res.status(201).json({
       success: true,
@@ -198,9 +200,8 @@ tasksRouter.put<TaskIdParamsSchema, ResponseBody<TaskSchema>, TaskUpdateSchema>(
     const { id } = req.params;
     const updatingTask = req.body;
 
+    await using repository = await TasksLowDBRepository.open();
     const updatedTask = await repository.updateAsync(id, updatingTask);
-
-    await repository.writeFileAsync();
 
     res.status(200).json({
       success: true,
@@ -217,9 +218,8 @@ tasksRouter.patch<TaskIdParamsSchema, ResponseBody<TaskSchema>, TaskPartialUpdat
     const { id } = req.params;
     const partiallyUpdatingTask = req.body;
 
+    await using repository = await TasksLowDBRepository.open();
     const partiallyUpdatedTask = await repository.partialUpdateAsync(id, partiallyUpdatingTask);
-
-    await repository.writeFileAsync();
 
     res.status(200).json({
       success: true,
@@ -234,9 +234,8 @@ tasksRouter.delete<TaskIdParamsSchema, ResponseBody<TaskSchema>, any>(
   async (req, res) => {
     const { id } = req.params;
 
+    await using repository = await TasksLowDBRepository.open();
     const deletedTask = await repository.deleteAsync(id);
-
-    await repository.writeFileAsync();
 
     res.status(200).json({
       success: true,
@@ -253,7 +252,9 @@ tasksRouter.get<TaskAssigneeParamsSchema, ResponseBodyPaginated<TaskSchema>, any
     const { assignee } = req.params;
     const { page, limit, startIndex, endIndex } = req.paginate();
 
+    const repository = await TasksLowDBRepository.open();
     const tasks = await repository.getAllAsync();
+
     let filteredTasks = structuredClone(tasks);
 
     if (assignee) {
@@ -279,9 +280,8 @@ tasksRouter.patch<TaskIdParamsSchema & TaskAssigneeParamsSchema, ResponseBody<Ta
   async (req, res) => {
     const { id, assignee } = req.params;
 
+    await using repository = await TasksLowDBRepository.open();
     const assignedTask = await repository.assignAsync(id, assignee);
-
-    await repository.writeFileAsync();
 
     res.status(200).json({
       success: true,
