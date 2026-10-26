@@ -33,7 +33,7 @@ export default class LowDBRepository<T extends BaseEntitySchema = BaseEntitySche
       this.db = await JSONFilePreset<T[]>(filename, defaultData);
     }
 
-    this.instance = this.instance ?? new this(this.db);
+    this.instance ??= new this(this.db);
 
     return this.instance;
   }

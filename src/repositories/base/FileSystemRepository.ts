@@ -33,7 +33,7 @@ export default class FileSystemRepository<T extends BaseEntitySchema = BaseEntit
     defaultData: T[],
     serializer: Serializer<T[]> = Serializers.object
   ) {
-    this.instance = this.instance ?? new this(filename, defaultData, serializer);
+    this.instance ??= new this(filename, defaultData, serializer);
 
     return this.instance;
   }

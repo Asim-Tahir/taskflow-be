@@ -16,7 +16,7 @@ export class TasksLowDBRepository extends LowDBRepository<TaskSchema> {
       this.db = await JSONFilePreset<TaskSchema[]>(TASKS_DATA_PATH, []);
     }
 
-    this.instance = this.instance ?? new this(this.db);
+    this.instance ??= new this(this.db);
 
     return this.instance;
   }
@@ -84,7 +84,7 @@ export class TasksFileSystemRepository extends FileSystemRepository<TaskSchema> 
   static instance: TasksFileSystemRepository;
 
   static open() {
-    this.instance = this.instance ?? new this(TASKS_DATA_PATH, [], Serializers.object);
+    this.instance ??= new this(TASKS_DATA_PATH, [], Serializers.object);
 
     return this.instance;
   }
