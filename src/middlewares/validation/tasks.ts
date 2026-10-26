@@ -1,6 +1,6 @@
 import type { RequestHandler } from "express";
 
-import { tasks } from "#data";
+import { TasksLowDBRepository } from "#repositories";
 import {
   validateTaskAssigneeParams,
   validateTaskCreate,
@@ -12,6 +12,8 @@ import {
   validateTaskSortationQuery,
   validateTaskUpdate
 } from "#validators";
+
+const repository = await TasksLowDBRepository.open();
 
 /**
  * Validate task filters at request query
@@ -58,7 +60,7 @@ export const taskSearchQueryValidationMiddleware: RequestHandler = (req, res, ne
 /**
  * Validate task id request params
  */
-export const taskIdParamsValidationMiddleware: RequestHandler = (req, res, next) => {
+export const taskIdParamsValidationMiddleware: RequestHandler = async (req, res, next) => {
   const result = validateTaskIdParams(req.params);
 
   if (!result?.success) {
@@ -67,9 +69,9 @@ export const taskIdParamsValidationMiddleware: RequestHandler = (req, res, next)
   }
 
   const { id } = result.data;
-  const taskIndex = tasks.findIndex((task) => task.id === id);
+  const task = await repository.getByIdAsync(id);
 
-  if (taskIndex < 0) {
+  if (!task) {
     res.status(404).json({
       success: false,
       errors: [`Task with ID ${id} not found`]
@@ -83,7 +85,7 @@ export const taskIdParamsValidationMiddleware: RequestHandler = (req, res, next)
 /**
  * Validate task assignee request params
  */
-export const taskAssigneeParamsValidationMiddleware: RequestHandler = (req, res, next) => {
+export const taskAssigneeParamsValidationMiddleware: RequestHandler = async (req, res, next) => {
   const result = validateTaskAssigneeParams(req.params);
 
   if (!result?.success) {
@@ -92,9 +94,9 @@ export const taskAssigneeParamsValidationMiddleware: RequestHandler = (req, res,
   }
 
   const { assignee } = result.data;
-  const taskIndex = tasks.findIndex((task) => task.assignee === assignee);
+  const assigneeTasks = await repository.getByAssigneeAsync(assignee);
 
-  if (taskIndex < 0) {
+  if (assigneeTasks.length <= 0) {
     res.status(404).json({
       success: false,
       errors: [`Task with assignee "${assignee}" not found`]
