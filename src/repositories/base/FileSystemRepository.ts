@@ -5,7 +5,7 @@ import { type Serializer, Serializers, readFile, writeFile } from "#utils";
 
 import type IBaseRepository from "./IBaseRepository.ts";
 
-export default class FileSystemRepository<T extends BaseEntitySchema = BaseEntitySchema> implements IBaseRepository<T> {
+export default class FileSystemRepository<T extends BaseEntitySchema = BaseEntitySchema> implements IBaseRepository<T>, AsyncDisposable {
   #filename: string;
   #defaultData: T[] = [];
   #serializer: Serializer<T[]>;
@@ -36,6 +36,12 @@ export default class FileSystemRepository<T extends BaseEntitySchema = BaseEntit
     this.instance = this.instance ?? new this(filename, defaultData, serializer);
 
     return this.instance;
+  }
+
+  async [Symbol.asyncDispose](): Promise<void> {
+    if (!(await this.writeFileAsync())) {
+      throw new Error(`Failed to write repository file "${this.#filename}"`);
+    }
   }
 
   async readFileAsync(): Promise<T[]> {
