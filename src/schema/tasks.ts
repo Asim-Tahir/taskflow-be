@@ -28,7 +28,6 @@ export type TaskSchema = z.infer<typeof taskSchema>;
 export const taskCreateSchema = z.object({
   title: z.string().check(z.minLength(3)),
   description: z.optional(z.string().check(z.minLength(16))),
-  status: z.enum([TaskStatus.Pending]),
   priority: taskPrioritySchema,
 });
 export type TaskCreateSchema = z.infer<typeof taskCreateSchema>;
