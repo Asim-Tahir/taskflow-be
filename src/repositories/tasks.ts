@@ -61,7 +61,7 @@ export class TasksLowDBRepository extends LowDBRepository<TaskSchema> {
     }))
   }
 
-  async getByAssigneeAsync(assignee: TaskSchema["assignee"]): Promise<TaskSchema[]> {
+  async getAllByAssigneeAsync(assignee: TaskSchema["assignee"]): Promise<TaskSchema[]> {
     const assigneeTasks = this.db.data.filter((task) => task.assignee === assignee);
 
     return assigneeTasks;
@@ -129,7 +129,7 @@ export class TasksFileSystemRepository extends FileSystemRepository<TaskSchema> 
     }))
   }
 
-  async getByAssigneeAsync(assignee: TaskSchema["assignee"]): Promise<TaskSchema[]> {
+  async getAllByAssigneeAsync(assignee: TaskSchema["assignee"]): Promise<TaskSchema[]> {
     const assigneeTasks = this.data.filter((task) => task.assignee === assignee);
 
     return assigneeTasks;

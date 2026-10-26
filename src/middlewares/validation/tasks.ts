@@ -94,7 +94,7 @@ export const taskAssigneeParamsValidationMiddleware: RequestHandler = async (req
   }
 
   const { assignee } = result.data;
-  const assigneeTasks = await repository.getByAssigneeAsync(assignee);
+  const assigneeTasks = await repository.getAllByAssigneeAsync(assignee);
 
   if (assigneeTasks.length <= 0) {
     res.status(404).json({
