@@ -3,6 +3,8 @@ import * as z from "zod/mini";
 import { SORTATION_ORDER_FIELDS, SORTATION_TASK_SORTABLE_FIELDS } from "#constants";
 import { TaskPriority, TaskStatus } from "#enums";
 
+import { baseEntitySchema } from "./entity.ts";
+
 export const taskStatusSchema = z.enum(TaskStatus);
 export type TaskStatusSchema = z.infer<typeof taskStatusSchema>;
 
@@ -14,15 +16,12 @@ export const taskAssigneeSchema = z.string().check(
   z.regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
 );
 
-export const taskSchema = z.object({
-  id: z.uuidv4(),
+export const taskSchema = z.safeExtend(baseEntitySchema, {
   title: z.string().check(z.minLength(3)),
   description: z.optional(z.string().check(z.minLength(16))),
   status: taskStatusSchema,
   priority: taskPrioritySchema,
   assignee: z.optional(taskAssigneeSchema),
-  createdAt: z.iso.datetime(),
-  updatedAt: z.optional(z.iso.datetime()),
 });
 export type TaskSchema = z.infer<typeof taskSchema>;
 
