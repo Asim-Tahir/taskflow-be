@@ -1,6 +1,9 @@
 import type { BaseEntitySchema } from "#schema";
 
-export default interface IBaseRepository<T extends BaseEntitySchema = BaseEntitySchema> {
+export default interface IBaseRepository<
+  T extends BaseEntitySchema = BaseEntitySchema,
+  TNewEntity = Omit<T, keyof BaseEntitySchema>
+> {
   /**
    * Generate identifier for {@link T entity}
    * @returns generated identifier for {@link T entity}
@@ -25,7 +28,7 @@ export default interface IBaseRepository<T extends BaseEntitySchema = BaseEntity
    * @param entityOrEntityFactory entity to create or entity factory to create
    * @returns created {@link T entity}
    */
-  createAsync(entityOrEntityFactory: Omit<T, "id" | "createdAt" | "updatedAt"> | (() => T)): Promise<T>;
+  createAsync(entityOrEntityFactory: TNewEntity | (() => T)): Promise<T>;
 
   /**
    * Update {@link T entity}
@@ -33,7 +36,7 @@ export default interface IBaseRepository<T extends BaseEntitySchema = BaseEntity
    * @param entityOrEntityFactory entity to update or entity factory to update
    * @returns updated {@link T entity}
    */
-  updateAsync(id: T["id"], entityOrEntityFactory: Omit<T, "id" | "createdAt" | "updatedAt"> | ((updatingEntity: T) => T)): Promise<T>;
+  updateAsync(id: T["id"], entityOrEntityFactory: TNewEntity | ((updatingEntity: T) => T)): Promise<T>;
 
   /**
    * Partially update {@link T entity}
@@ -41,7 +44,7 @@ export default interface IBaseRepository<T extends BaseEntitySchema = BaseEntity
    * @param entityOrEntityFactory entity to partially update or entity factory to partially update
    * @returns partially updated {@link T entity}
    */
-  partialUpdateAsync(id: T["id"], entityOrEntityFactory: Partial<Omit<T, "id" | "createdAt" | "updatedAt">> | ((updatingEntity: T) => T)): Promise<T>;
+  partialUpdateAsync(id: T["id"], entityOrEntityFactory: Partial<TNewEntity> | ((updatingEntity: T) => T)): Promise<T>;
 
   /**
    * Delete {@link T entity} by {@link id}
