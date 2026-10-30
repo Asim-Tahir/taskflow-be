@@ -1,0 +1,116 @@
+info:
+  name: Delete a task
+  type: http
+  seq: 7
+  tags:
+    - Tasks
+
+http:
+  method: DELETE
+  url: "{{baseUrl}}/tasks/:id"
+  params:
+    - name: id
+      value: ""
+      type: path
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
+
+examples:
+  - name: A completed task
+    request:
+      url: "{{baseUrl}}/tasks/:id"
+      method: DELETE
+      params:
+        - name: id
+          value: ""
+          type: path
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "success": true,
+            "data": {
+              "id": "7138f7d9-bb6c-4fc3-a631-7a8ba0108784",
+              "title": "Prepare the weekly project update",
+              "status": "completed",
+              "priority": "low",
+              "createdAt": "2026-09-28T08:16:22.742Z"
+            }
+          }
+  - name: 400 Response
+    description: The request is invalid or the resource was not found.
+    request:
+      url: "{{baseUrl}}/tasks/:id"
+      method: DELETE
+      params:
+        - name: id
+          value: ""
+          type: path
+    response:
+      status: 400
+      statusText: Bad Request
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "success": false,
+            "errors": []
+          }
+  - name: 404 Response
+    description: The request is invalid or the resource was not found.
+    request:
+      url: "{{baseUrl}}/tasks/:id"
+      method: DELETE
+      params:
+        - name: id
+          value: ""
+          type: path
+    response:
+      status: 404
+      statusText: Not Found
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "success": false,
+            "errors": []
+          }
+  - name: 500 Response
+    description: An unexpected server error occurred.
+    request:
+      url: "{{baseUrl}}/tasks/:id"
+      method: DELETE
+      params:
+        - name: id
+          value: ""
+          type: path
+    response:
+      status: 500
+      statusText: Internal Server Error
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "error": "Internal Server Error"
+          }

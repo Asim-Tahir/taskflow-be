@@ -1,0 +1,151 @@
+info:
+  name: List tasks by status
+  type: http
+  seq: 2
+  tags:
+    - Reports
+
+http:
+  method: GET
+  url: "{{baseUrl}}/reports/:status"
+  params:
+    - name: status
+      value: pending
+      type: path
+    - name: status
+      value: completed
+      type: path
+      disabled: true
+    - name: page
+      value: "1"
+      type: query
+      description: Page number, from 1 to 99. Defaults to 1.
+    - name: limit
+      value: "10"
+      type: query
+      description: Page size, from 1 to 99. Defaults to 10.
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
+
+examples:
+  - name: 200 Response
+    description: The task list response.
+    request:
+      url: "{{baseUrl}}/reports/:status"
+      method: GET
+      params:
+        - name: status
+          value: pending
+          type: path
+        - name: status
+          value: completed
+          type: path
+          disabled: true
+        - name: page
+          value: "1"
+          type: query
+          description: Page number, from 1 to 99. Defaults to 1.
+        - name: limit
+          value: "10"
+          type: query
+          description: Page size, from 1 to 99. Defaults to 10.
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "success": true,
+            "data": [
+              {
+                "id": "",
+                "title": "",
+                "description": "",
+                "status": "pending",
+                "priority": "low",
+                "assignee": "",
+                "createdAt": "",
+                "updatedAt": ""
+              }
+            ],
+            "page": 0,
+            "limit": 0,
+            "total": 0
+          }
+  - name: 400 Response
+    description: The request is invalid or the resource was not found.
+    request:
+      url: "{{baseUrl}}/reports/:status"
+      method: GET
+      params:
+        - name: status
+          value: pending
+          type: path
+        - name: status
+          value: completed
+          type: path
+          disabled: true
+        - name: page
+          value: "1"
+          type: query
+          description: Page number, from 1 to 99. Defaults to 1.
+        - name: limit
+          value: "10"
+          type: query
+          description: Page size, from 1 to 99. Defaults to 10.
+    response:
+      status: 400
+      statusText: Bad Request
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "success": false,
+            "errors": []
+          }
+  - name: 500 Response
+    description: An unexpected server error occurred.
+    request:
+      url: "{{baseUrl}}/reports/:status"
+      method: GET
+      params:
+        - name: status
+          value: pending
+          type: path
+        - name: status
+          value: completed
+          type: path
+          disabled: true
+        - name: page
+          value: "1"
+          type: query
+          description: Page number, from 1 to 99. Defaults to 1.
+        - name: limit
+          value: "10"
+          type: query
+          description: Page size, from 1 to 99. Defaults to 10.
+    response:
+      status: 500
+      statusText: Internal Server Error
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "error": "Internal Server Error"
+          }

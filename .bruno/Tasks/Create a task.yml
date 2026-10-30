@@ -1,0 +1,114 @@
+info:
+  name: Create a task
+  type: http
+  seq: 2
+  tags:
+    - Tasks
+
+http:
+  method: POST
+  url: "{{baseUrl}}/tasks"
+  body:
+    type: json
+    data: |-
+      {
+        "title": "Prepare release notes",
+        "description": "Collect the changes and prepare notes for the next release.",
+        "status": "pending",
+        "priority": "medium"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
+
+examples:
+  - name: A completed task (Create a pending task)
+    request:
+      url: "{{baseUrl}}/tasks"
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "title": "Prepare release notes",
+            "description": "Collect the changes and prepare notes for the next release.",
+            "status": "pending",
+            "priority": "medium"
+          }
+    response:
+      status: 201
+      statusText: Created
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "success": true,
+            "data": {
+              "id": "7138f7d9-bb6c-4fc3-a631-7a8ba0108784",
+              "title": "Prepare the weekly project update",
+              "status": "completed",
+              "priority": "low",
+              "createdAt": "2026-09-28T08:16:22.742Z"
+            }
+          }
+  - name: 400 Response (Create a pending task)
+    description: The request is invalid or the resource was not found.
+    request:
+      url: "{{baseUrl}}/tasks"
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "title": "Prepare release notes",
+            "description": "Collect the changes and prepare notes for the next release.",
+            "status": "pending",
+            "priority": "medium"
+          }
+    response:
+      status: 400
+      statusText: Bad Request
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "success": false,
+            "errors": []
+          }
+  - name: 500 Response (Create a pending task)
+    description: An unexpected server error occurred.
+    request:
+      url: "{{baseUrl}}/tasks"
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "title": "Prepare release notes",
+            "description": "Collect the changes and prepare notes for the next release.",
+            "status": "pending",
+            "priority": "medium"
+          }
+    response:
+      status: 500
+      statusText: Internal Server Error
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "error": "Internal Server Error"
+          }

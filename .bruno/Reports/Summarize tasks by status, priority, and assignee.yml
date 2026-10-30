@@ -1,0 +1,62 @@
+info:
+  name: Summarize tasks by status, priority, and assignee
+  type: http
+  seq: 1
+  tags:
+    - Reports
+
+http:
+  method: GET
+  url: "{{baseUrl}}/reports/summary"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
+
+examples:
+  - name: 200 Response
+    description: Task counts grouped by status, priority, and assignee.
+    request:
+      url: "{{baseUrl}}/reports/summary"
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "success": false,
+            "data": {
+              "total": 0,
+              "breakdown": {
+                "status": {},
+                "priority": {},
+                "assignee": {}
+              }
+            }
+          }
+  - name: 500 Response
+    description: An unexpected server error occurred.
+    request:
+      url: "{{baseUrl}}/reports/summary"
+      method: GET
+    response:
+      status: 500
+      statusText: Internal Server Error
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "error": "Internal Server Error"
+          }
