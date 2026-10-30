@@ -32,10 +32,10 @@ test("serves Swagger UI", async () => {
 
   assert.equal(response.status, 200);
   assert.match(html, /id="swagger-ui"/);
-  assert.match(html, /\/swagger\/assets\/swagger-ui-bundle\.js/);
+  assert.match(html, /\/swagger\/swagger-ui-bundle\.js/);
   assert.match(html, /url: "\/openapi\.json"/);
 
-  const assetResponse = await fetch(`${baseUrl}/swagger/assets/swagger-ui-bundle.js`, {
+  const assetResponse = await fetch(`${baseUrl}/swagger/swagger-ui-bundle.js`, {
     headers: { Range: "bytes=0-1023" }
   });
   assert.equal(assetResponse.status, 206);
