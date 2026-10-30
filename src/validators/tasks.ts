@@ -1,4 +1,4 @@
-import type { ParamsDictionary, Query } from "express-serve-static-core";
+import type { ParamsDictionary } from "express-serve-static-core";
 import * as z from "zod/mini";
 
 import {
@@ -88,12 +88,12 @@ export async function validateTaskPartialUpdateAsync(task: unknown): Promise<z.c
 // #endregion
 
 // #region Task Filter
-export function validateTaskFilterQuery(query: Query): z.core.util.SafeParseResult<TaskFilterQuerySchema> {
+export function validateTaskFilterQuery(query: object): z.core.util.SafeParseResult<TaskFilterQuerySchema> {
   const result = taskFilterQuerySchema.safeParse(query);
 
   return result;
 }
-export async function validateTaskFilterQueryAsync(query: Query): Promise<z.core.util.SafeParseResult<TaskFilterQuerySchema>> {
+export async function validateTaskFilterQueryAsync(query: object): Promise<z.core.util.SafeParseResult<TaskFilterQuerySchema>> {
   const result = await taskFilterQuerySchema.safeParseAsync(query);
 
   return result;
@@ -101,12 +101,12 @@ export async function validateTaskFilterQueryAsync(query: Query): Promise<z.core
 // #endregion
 
 // #region Task Sortation
-export function validateTaskSortationQuery(query: Query): z.core.util.SafeParseResult<TaskSortationQuerySchema> {
+export function validateTaskSortationQuery(query: object): z.core.util.SafeParseResult<TaskSortationQuerySchema> {
   const result = taskSortationQuerySchema.safeParse(query);
 
   return result;
 }
-export async function validateTaskSortationQueryAsync(query: Query): Promise<z.core.util.SafeParseResult<TaskSortationQuerySchema>> {
+export async function validateTaskSortationQueryAsync(query: object): Promise<z.core.util.SafeParseResult<TaskSortationQuerySchema>> {
   const result = await taskSortationQuerySchema.safeParseAsync(query);
 
   return result;
@@ -114,12 +114,12 @@ export async function validateTaskSortationQueryAsync(query: Query): Promise<z.c
 // #endregion
 
 // #region Task Search
-export function validateTaskSearchQuery(query: Query): z.core.util.SafeParseResult<TaskSearchQuerySchema> {
+export function validateTaskSearchQuery(query: object): z.core.util.SafeParseResult<TaskSearchQuerySchema> {
   const result = taskSearchQuerySchema.safeParse(query);
 
   return result;
 }
-export async function validateTaskSearchQueryAsync(query: Query): Promise<z.core.util.SafeParseResult<TaskSearchQuerySchema>> {
+export async function validateTaskSearchQueryAsync(query: object): Promise<z.core.util.SafeParseResult<TaskSearchQuerySchema>> {
   const result = await taskSearchQuerySchema.safeParseAsync(query);
 
   return result;
