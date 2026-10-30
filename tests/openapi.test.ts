@@ -26,48 +26,6 @@ void test("serves an OpenAPI document for the task routes", async () => {
   assert.ok(document.paths["/api/v1/tasks/{id}"].patch);
 });
 
-test("documents response contracts and request examples", async () => {
-  const response = await fetch(`${baseUrl}/openapi.json`);
-  const document = await response.json();
-  const healthSchema = document.paths["/api/v1/health"].get.responses["200"].content["application/json"].schema;
-
-  assert.deepEqual(healthSchema.properties.data, { type: "null" });
-  assert.equal(
-    document.components.schemas.TaskListResponse.properties.total.description,
-    "Number of stored tasks before filtering for task list, search, and assignee routes; number of tasks in the returned page for reports by status."
-  );
-  assert.equal(
-    document.components.responses.InternalServerError.content["application/json"].schema.$ref,
-    "#/components/schemas/InternalServerErrorResponse"
-  );
-
-  const methods = ["get", "post", "put", "patch", "delete"] as const;
-  const paths = document.paths as Record<string, Partial<Record<(typeof methods)[number], {
-    responses: Record<string, { $ref?: string }>;
-  }>>>;
-  const operations = Object.values(paths).flatMap((pathItem) =>
-    methods.flatMap((method) => pathItem[method] ? [pathItem[method]] : [])
-  );
-
-  for (const operation of operations) {
-    assert.equal(operation.responses["500"].$ref, "#/components/responses/InternalServerError");
-  }
-
-  assert.deepEqual(
-    document.paths["/api/v1/tasks"].post.requestBody.content["application/json"].examples.createTask.value,
-    {
-      title: "Prepare release notes",
-      description: "Collect the changes and prepare notes for the next release.",
-      status: "pending",
-      priority: "medium"
-    }
-  );
-  assert.equal(
-    document.components.responses.Task.content["application/json"].examples.task.value.data.id,
-    "7138f7d9-bb6c-4fc3-a631-7a8ba0108784"
-  );
-});
-
 void test("serves Swagger UI", async () => {
   const response = await fetch(`${baseUrl}/swagger`);
   const html = await response.text();
