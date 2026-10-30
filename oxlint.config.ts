@@ -18,7 +18,13 @@ export default defineConfig({
     suspicious: "error",
     perf: "warn",
   },
-  rules: {},
+  rules: {
+    "import/no-unassigned-import": "off",
+    "oxc/no-async-endpoint-handlers": "off",
+    "oxc/no-this-in-exported-function": "off",
+    "typescript/no-useless-empty-export": "off",
+    "unicorn/require-module-specifiers": "off",
+  },
   env: {
     builtin: true
   }
