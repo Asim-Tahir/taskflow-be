@@ -1,0 +1,2559 @@
+{
+  "info": {
+    "_postman_id": "d8f73fe2-faef-4fef-ac7e-81d1a45d691a",
+    "name": "Taskflow API",
+    "description": "Task and Project management system",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "16695042"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "v1",
+          "item": [
+            {
+              "name": "health",
+              "item": [
+                {
+                  "name": "Check API health",
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/v1/health",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "health"
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "The API is available.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/health",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "health"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"success\": true,\n  \"data\": null\n}"
+                    },
+                    {
+                      "name": "An unexpected server error occurred.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/health",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "health"
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"error\": \"Internal Server Error\"\n}"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "tasks",
+              "item": [
+                {
+                  "name": "search",
+                  "item": [
+                    {
+                      "name": "Search task titles and descriptions",
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/tasks/search?keyword=string&page=1&limit=10",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "tasks",
+                            "search"
+                          ],
+                          "query": [
+                            {
+                              "key": "keyword",
+                              "value": "string"
+                            },
+                            {
+                              "description": "Page number, from 1 to 99. Defaults to 1.",
+                              "key": "page",
+                              "value": "1"
+                            },
+                            {
+                              "description": "Page size, from 1 to 99. Defaults to 10.",
+                              "key": "limit",
+                              "value": "10"
+                            }
+                          ]
+                        },
+                        "description": "Matches the optional keyword against task titles and descriptions."
+                      },
+                      "response": [
+                        {
+                          "name": "The task list response.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/tasks/search?keyword=string&page=1&limit=10",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "tasks",
+                                "search"
+                              ],
+                              "query": [
+                                {
+                                  "key": "keyword",
+                                  "value": "string"
+                                },
+                                {
+                                  "description": "Page number, from 1 to 99. Defaults to 1.",
+                                  "key": "page",
+                                  "value": "1"
+                                },
+                                {
+                                  "description": "Page size, from 1 to 99. Defaults to 10.",
+                                  "key": "limit",
+                                  "value": "10"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": \"e5314bec-3a00-bd8f-1327-8010c6e9785f\",\n      \"title\": \"string\",\n      \"status\": \"pending\",\n      \"priority\": \"low\",\n      \"createdAt\": \"1963-11-25T12:22:45.641Z\",\n      \"description\": \"stringstringstring\",\n      \"assignee\": \"pu4o2j-ahhcz\",\n      \"updatedAt\": \"1955-03-22T01:12:45.238Z\"\n    },\n    {\n      \"id\": \"87c249e7-3c89-53f8-8dcb-bb246050749f\",\n      \"title\": \"string\",\n      \"status\": \"pending\",\n      \"priority\": \"low\",\n      \"createdAt\": \"1974-03-23T11:03:37.470Z\",\n      \"description\": \"stringstringstring\",\n      \"assignee\": \"0h8ljc85x0m-m-si3t-i8iojyxumz\",\n      \"updatedAt\": \"1986-09-26T18:29:15.199Z\"\n    }\n  ],\n  \"page\": 1808,\n  \"limit\": 2043,\n  \"total\": 4998\n}"
+                        },
+                        {
+                          "name": "The request is invalid or the resource was not found.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/tasks/search?keyword=string&page=1&limit=10",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "tasks",
+                                "search"
+                              ],
+                              "query": [
+                                {
+                                  "key": "keyword",
+                                  "value": "string"
+                                },
+                                {
+                                  "description": "Page number, from 1 to 99. Defaults to 1.",
+                                  "key": "page",
+                                  "value": "1"
+                                },
+                                {
+                                  "description": "Page size, from 1 to 99. Defaults to 10.",
+                                  "key": "limit",
+                                  "value": "10"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"success\": false,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}"
+                        },
+                        {
+                          "name": "An unexpected server error occurred.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/tasks/search?keyword=string&page=1&limit=10",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "tasks",
+                                "search"
+                              ],
+                              "query": [
+                                {
+                                  "key": "keyword",
+                                  "value": "string"
+                                },
+                                {
+                                  "description": "Page number, from 1 to 99. Defaults to 1.",
+                                  "key": "page",
+                                  "value": "1"
+                                },
+                                {
+                                  "description": "Page size, from 1 to 99. Defaults to 10.",
+                                  "key": "limit",
+                                  "value": "10"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Internal Server Error",
+                          "code": 500,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"error\": \"Internal Server Error\"\n}"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "{id}",
+                  "item": [
+                    {
+                      "name": "assign",
+                      "item": [
+                        {
+                          "name": "{assignee}",
+                          "item": [
+                            {
+                              "name": "Assign a task to an assignee",
+                              "request": {
+                                "method": "PATCH",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/tasks/:id/assign/:assignee",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "tasks",
+                                    ":id",
+                                    "assign",
+                                    ":assignee"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id",
+                                      "value": ""
+                                    },
+                                    {
+                                      "key": "assignee",
+                                      "value": "f-x8h36qb0aa-oz13-l3o-yj8a9ly6mq-eu2v6wvo9-realgclu55-i7xrz"
+                                    }
+                                  ]
+                                }
+                              },
+                              "response": [
+                                {
+                                  "name": "The task response.",
+                                  "originalRequest": {
+                                    "method": "PATCH",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/tasks/:id/assign/:assignee",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "tasks",
+                                        ":id",
+                                        "assign",
+                                        ":assignee"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "id",
+                                          "value": "80d0062d-c8a1-7227-ff33-e979b8e473cb"
+                                        },
+                                        {
+                                          "key": "assignee",
+                                          "value": "f-x8h36qb0aa-oz13-l3o-yj8a9ly6mq-eu2v6wvo9-realgclu55-i7xrz"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "OK",
+                                  "code": 200,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": \"7138f7d9-bb6c-4fc3-a631-7a8ba0108784\",\n    \"title\": \"Prepare the weekly project update\",\n    \"status\": \"completed\",\n    \"priority\": \"low\",\n    \"createdAt\": \"2026-09-28T08:16:22.742Z\"\n  }\n}"
+                                },
+                                {
+                                  "name": "The request is invalid or the resource was not found.",
+                                  "originalRequest": {
+                                    "method": "PATCH",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/tasks/:id/assign/:assignee",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "tasks",
+                                        ":id",
+                                        "assign",
+                                        ":assignee"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "id",
+                                          "value": "80d0062d-c8a1-7227-ff33-e979b8e473cb"
+                                        },
+                                        {
+                                          "key": "assignee",
+                                          "value": "f-x8h36qb0aa-oz13-l3o-yj8a9ly6mq-eu2v6wvo9-realgclu55-i7xrz"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Bad Request",
+                                  "code": 400,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "body": "{\n  \"success\": false,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}"
+                                },
+                                {
+                                  "name": "The request is invalid or the resource was not found.",
+                                  "originalRequest": {
+                                    "method": "PATCH",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/tasks/:id/assign/:assignee",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "tasks",
+                                        ":id",
+                                        "assign",
+                                        ":assignee"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "id",
+                                          "value": "80d0062d-c8a1-7227-ff33-e979b8e473cb"
+                                        },
+                                        {
+                                          "key": "assignee",
+                                          "value": "f-x8h36qb0aa-oz13-l3o-yj8a9ly6mq-eu2v6wvo9-realgclu55-i7xrz"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Not Found",
+                                  "code": 404,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "body": "{\n  \"success\": false,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}"
+                                },
+                                {
+                                  "name": "An unexpected server error occurred.",
+                                  "originalRequest": {
+                                    "method": "PATCH",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/tasks/:id/assign/:assignee",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "tasks",
+                                        ":id",
+                                        "assign",
+                                        ":assignee"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "id",
+                                          "value": "80d0062d-c8a1-7227-ff33-e979b8e473cb"
+                                        },
+                                        {
+                                          "key": "assignee",
+                                          "value": "f-x8h36qb0aa-oz13-l3o-yj8a9ly6mq-eu2v6wvo9-realgclu55-i7xrz"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Internal Server Error",
+                                  "code": 500,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "body": "{\n  \"error\": \"Internal Server Error\"\n}"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "Get a task by ID",
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/tasks/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "tasks",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": ""
+                            }
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "name": "The task response.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/tasks/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "tasks",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "80d0062d-c8a1-7227-ff33-e979b8e473cb"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": \"7138f7d9-bb6c-4fc3-a631-7a8ba0108784\",\n    \"title\": \"Prepare the weekly project update\",\n    \"status\": \"completed\",\n    \"priority\": \"low\",\n    \"createdAt\": \"2026-09-28T08:16:22.742Z\"\n  }\n}"
+                        },
+                        {
+                          "name": "The request is invalid or the resource was not found.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/tasks/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "tasks",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "80d0062d-c8a1-7227-ff33-e979b8e473cb"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"success\": false,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}"
+                        },
+                        {
+                          "name": "The request is invalid or the resource was not found.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/tasks/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "tasks",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "80d0062d-c8a1-7227-ff33-e979b8e473cb"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"success\": false,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}"
+                        },
+                        {
+                          "name": "An unexpected server error occurred.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/tasks/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "tasks",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "80d0062d-c8a1-7227-ff33-e979b8e473cb"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Internal Server Error",
+                          "code": 500,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"error\": \"Internal Server Error\"\n}"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "Update a task",
+                      "request": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"title\": \"string\",\n  \"status\": \"completed\",\n  \"priority\": \"high\",\n  \"description\": \"stringstringstring\",\n  \"assignee\": \"r13y1zpi-prgii5b6-pb-s-21-hxqty-diuufuch2va-d8y99-h5\"\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/tasks/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "tasks",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": ""
+                            }
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "name": "The task response.",
+                          "originalRequest": {
+                            "method": "PUT",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"title\": \"string\",\n  \"status\": \"completed\",\n  \"priority\": \"high\",\n  \"description\": \"stringstringstring\",\n  \"assignee\": \"r13y1zpi-prgii5b6-pb-s-21-hxqty-diuufuch2va-d8y99-h5\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/tasks/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "tasks",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "80d0062d-c8a1-7227-ff33-e979b8e473cb"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": \"7138f7d9-bb6c-4fc3-a631-7a8ba0108784\",\n    \"title\": \"Prepare the weekly project update\",\n    \"status\": \"completed\",\n    \"priority\": \"low\",\n    \"createdAt\": \"2026-09-28T08:16:22.742Z\"\n  }\n}"
+                        },
+                        {
+                          "name": "The request is invalid or the resource was not found.",
+                          "originalRequest": {
+                            "method": "PUT",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"title\": \"string\",\n  \"status\": \"completed\",\n  \"priority\": \"high\",\n  \"description\": \"stringstringstring\",\n  \"assignee\": \"r13y1zpi-prgii5b6-pb-s-21-hxqty-diuufuch2va-d8y99-h5\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/tasks/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "tasks",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "80d0062d-c8a1-7227-ff33-e979b8e473cb"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"success\": false,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}"
+                        },
+                        {
+                          "name": "The request is invalid or the resource was not found.",
+                          "originalRequest": {
+                            "method": "PUT",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"title\": \"string\",\n  \"status\": \"completed\",\n  \"priority\": \"high\",\n  \"description\": \"stringstringstring\",\n  \"assignee\": \"r13y1zpi-prgii5b6-pb-s-21-hxqty-diuufuch2va-d8y99-h5\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/tasks/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "tasks",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "80d0062d-c8a1-7227-ff33-e979b8e473cb"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"success\": false,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}"
+                        },
+                        {
+                          "name": "An unexpected server error occurred.",
+                          "originalRequest": {
+                            "method": "PUT",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"title\": \"string\",\n  \"status\": \"completed\",\n  \"priority\": \"high\",\n  \"description\": \"stringstringstring\",\n  \"assignee\": \"r13y1zpi-prgii5b6-pb-s-21-hxqty-diuufuch2va-d8y99-h5\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/tasks/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "tasks",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "80d0062d-c8a1-7227-ff33-e979b8e473cb"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Internal Server Error",
+                          "code": 500,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"error\": \"Internal Server Error\"\n}"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "Update selected task fields",
+                      "request": {
+                        "method": "PATCH",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"status\": \"completed\",\n  \"assignee\": \"jordan-mitchell\"\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/tasks/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "tasks",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": ""
+                            }
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "name": "The task response.",
+                          "originalRequest": {
+                            "method": "PATCH",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"status\": \"completed\",\n  \"assignee\": \"jordan-mitchell\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/tasks/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "tasks",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "80d0062d-c8a1-7227-ff33-e979b8e473cb"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": \"7138f7d9-bb6c-4fc3-a631-7a8ba0108784\",\n    \"title\": \"Prepare the weekly project update\",\n    \"status\": \"completed\",\n    \"priority\": \"low\",\n    \"createdAt\": \"2026-09-28T08:16:22.742Z\"\n  }\n}"
+                        },
+                        {
+                          "name": "The request is invalid or the resource was not found.",
+                          "originalRequest": {
+                            "method": "PATCH",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"status\": \"completed\",\n  \"assignee\": \"jordan-mitchell\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/tasks/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "tasks",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "80d0062d-c8a1-7227-ff33-e979b8e473cb"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"success\": false,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}"
+                        },
+                        {
+                          "name": "The request is invalid or the resource was not found.",
+                          "originalRequest": {
+                            "method": "PATCH",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"status\": \"completed\",\n  \"assignee\": \"jordan-mitchell\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/tasks/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "tasks",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "80d0062d-c8a1-7227-ff33-e979b8e473cb"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"success\": false,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}"
+                        },
+                        {
+                          "name": "An unexpected server error occurred.",
+                          "originalRequest": {
+                            "method": "PATCH",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"status\": \"completed\",\n  \"assignee\": \"jordan-mitchell\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/tasks/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "tasks",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "80d0062d-c8a1-7227-ff33-e979b8e473cb"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Internal Server Error",
+                          "code": 500,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"error\": \"Internal Server Error\"\n}"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "Delete a task",
+                      "request": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/tasks/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "tasks",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id",
+                              "value": ""
+                            }
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "name": "The task response.",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/tasks/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "tasks",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "80d0062d-c8a1-7227-ff33-e979b8e473cb"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": \"7138f7d9-bb6c-4fc3-a631-7a8ba0108784\",\n    \"title\": \"Prepare the weekly project update\",\n    \"status\": \"completed\",\n    \"priority\": \"low\",\n    \"createdAt\": \"2026-09-28T08:16:22.742Z\"\n  }\n}"
+                        },
+                        {
+                          "name": "The request is invalid or the resource was not found.",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/tasks/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "tasks",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "80d0062d-c8a1-7227-ff33-e979b8e473cb"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"success\": false,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}"
+                        },
+                        {
+                          "name": "The request is invalid or the resource was not found.",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/tasks/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "tasks",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "80d0062d-c8a1-7227-ff33-e979b8e473cb"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"success\": false,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}"
+                        },
+                        {
+                          "name": "An unexpected server error occurred.",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/tasks/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "tasks",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id",
+                                  "value": "80d0062d-c8a1-7227-ff33-e979b8e473cb"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Internal Server Error",
+                          "code": 500,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"error\": \"Internal Server Error\"\n}"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "assignee",
+                  "item": [
+                    {
+                      "name": "{assignee}",
+                      "item": [
+                        {
+                          "name": "List tasks assigned to a team member",
+                          "request": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/tasks/assignee/:assignee?page=1&limit=10",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "tasks",
+                                "assignee",
+                                ":assignee"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Page number, from 1 to 99. Defaults to 1.",
+                                  "key": "page",
+                                  "value": "1"
+                                },
+                                {
+                                  "description": "Page size, from 1 to 99. Defaults to 10.",
+                                  "key": "limit",
+                                  "value": "10"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "assignee",
+                                  "value": "f-x8h36qb0aa-oz13-l3o-yj8a9ly6mq-eu2v6wvo9-realgclu55-i7xrz"
+                                }
+                              ]
+                            }
+                          },
+                          "response": [
+                            {
+                              "name": "The task list response.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/tasks/assignee/:assignee?page=1&limit=10",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "tasks",
+                                    "assignee",
+                                    ":assignee"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Page number, from 1 to 99. Defaults to 1.",
+                                      "key": "page",
+                                      "value": "1"
+                                    },
+                                    {
+                                      "description": "Page size, from 1 to 99. Defaults to 10.",
+                                      "key": "limit",
+                                      "value": "10"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "assignee",
+                                      "value": "f-x8h36qb0aa-oz13-l3o-yj8a9ly6mq-eu2v6wvo9-realgclu55-i7xrz"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "body": "{\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": \"e5314bec-3a00-bd8f-1327-8010c6e9785f\",\n      \"title\": \"string\",\n      \"status\": \"pending\",\n      \"priority\": \"low\",\n      \"createdAt\": \"1963-11-25T12:22:45.641Z\",\n      \"description\": \"stringstringstring\",\n      \"assignee\": \"pu4o2j-ahhcz\",\n      \"updatedAt\": \"1955-03-22T01:12:45.238Z\"\n    },\n    {\n      \"id\": \"87c249e7-3c89-53f8-8dcb-bb246050749f\",\n      \"title\": \"string\",\n      \"status\": \"pending\",\n      \"priority\": \"low\",\n      \"createdAt\": \"1974-03-23T11:03:37.470Z\",\n      \"description\": \"stringstringstring\",\n      \"assignee\": \"0h8ljc85x0m-m-si3t-i8iojyxumz\",\n      \"updatedAt\": \"1986-09-26T18:29:15.199Z\"\n    }\n  ],\n  \"page\": 1808,\n  \"limit\": 2043,\n  \"total\": 4998\n}"
+                            },
+                            {
+                              "name": "The request is invalid or the resource was not found.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/tasks/assignee/:assignee?page=1&limit=10",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "tasks",
+                                    "assignee",
+                                    ":assignee"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Page number, from 1 to 99. Defaults to 1.",
+                                      "key": "page",
+                                      "value": "1"
+                                    },
+                                    {
+                                      "description": "Page size, from 1 to 99. Defaults to 10.",
+                                      "key": "limit",
+                                      "value": "10"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "assignee",
+                                      "value": "f-x8h36qb0aa-oz13-l3o-yj8a9ly6mq-eu2v6wvo9-realgclu55-i7xrz"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Bad Request",
+                              "code": 400,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "body": "{\n  \"success\": false,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}"
+                            },
+                            {
+                              "name": "The request is invalid or the resource was not found.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/tasks/assignee/:assignee?page=1&limit=10",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "tasks",
+                                    "assignee",
+                                    ":assignee"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Page number, from 1 to 99. Defaults to 1.",
+                                      "key": "page",
+                                      "value": "1"
+                                    },
+                                    {
+                                      "description": "Page size, from 1 to 99. Defaults to 10.",
+                                      "key": "limit",
+                                      "value": "10"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "assignee",
+                                      "value": "f-x8h36qb0aa-oz13-l3o-yj8a9ly6mq-eu2v6wvo9-realgclu55-i7xrz"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Not Found",
+                              "code": 404,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "body": "{\n  \"success\": false,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}"
+                            },
+                            {
+                              "name": "An unexpected server error occurred.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/tasks/assignee/:assignee?page=1&limit=10",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "tasks",
+                                    "assignee",
+                                    ":assignee"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Page number, from 1 to 99. Defaults to 1.",
+                                      "key": "page",
+                                      "value": "1"
+                                    },
+                                    {
+                                      "description": "Page size, from 1 to 99. Defaults to 10.",
+                                      "key": "limit",
+                                      "value": "10"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "assignee",
+                                      "value": "f-x8h36qb0aa-oz13-l3o-yj8a9ly6mq-eu2v6wvo9-realgclu55-i7xrz"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Internal Server Error",
+                              "code": 500,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "body": "{\n  \"error\": \"Internal Server Error\"\n}"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "List and filter tasks",
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/v1/tasks",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "tasks"
+                      ],
+                      "query": [
+                        {
+                          "key": "title",
+                          "value": "project",
+                          "disabled": true
+                        },
+                        {
+                          "key": "description",
+                          "value": "complete",
+                          "disabled": true
+                        },
+                        {
+                          "key": "status",
+                          "value": "pending",
+                          "disabled": true
+                        },
+                        {
+                          "key": "priority",
+                          "value": "medium",
+                          "disabled": true
+                        },
+                        {
+                          "key": "assignee",
+                          "value": "jordan-mitchell",
+                          "disabled": true
+                        },
+                        {
+                          "key": "sort",
+                          "value": "assignee",
+                          "disabled": true
+                        },
+                        {
+                          "key": "order",
+                          "value": "asc",
+                          "disabled": true
+                        },
+                        {
+                          "key": "page",
+                          "value": "1",
+                          "description": "Currently rejected as a string by query validation.",
+                          "disabled": true
+                        },
+                        {
+                          "key": "limit",
+                          "value": "10",
+                          "description": "Currently rejected as a string by query validation.",
+                          "disabled": true
+                        }
+                      ]
+                    },
+                    "description": "Example: /api/v1/tasks?status=pending&priority=high&sort=createdAt&order=desc. page and limit are currently rejected because query values arrive as strings."
+                  },
+                  "response": [
+                    {
+                      "name": "The task list response.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/tasks?title=string&description=string&status=completed&priority=medium&assignee=string&sort=assignee&order=asc&page=1&limit=10",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "tasks"
+                          ],
+                          "query": [
+                            {
+                              "key": "title",
+                              "value": "string"
+                            },
+                            {
+                              "key": "description",
+                              "value": "string"
+                            },
+                            {
+                              "key": "status",
+                              "value": "completed"
+                            },
+                            {
+                              "key": "priority",
+                              "value": "medium"
+                            },
+                            {
+                              "key": "assignee",
+                              "value": "string"
+                            },
+                            {
+                              "key": "sort",
+                              "value": "assignee"
+                            },
+                            {
+                              "key": "order",
+                              "value": "asc"
+                            },
+                            {
+                              "description": "Currently rejected as a string by query validation.",
+                              "key": "page",
+                              "value": "1"
+                            },
+                            {
+                              "description": "Currently rejected as a string by query validation.",
+                              "key": "limit",
+                              "value": "10"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": \"e5314bec-3a00-bd8f-1327-8010c6e9785f\",\n      \"title\": \"string\",\n      \"status\": \"pending\",\n      \"priority\": \"low\",\n      \"createdAt\": \"1963-11-25T12:22:45.641Z\",\n      \"description\": \"stringstringstring\",\n      \"assignee\": \"pu4o2j-ahhcz\",\n      \"updatedAt\": \"1955-03-22T01:12:45.238Z\"\n    },\n    {\n      \"id\": \"87c249e7-3c89-53f8-8dcb-bb246050749f\",\n      \"title\": \"string\",\n      \"status\": \"pending\",\n      \"priority\": \"low\",\n      \"createdAt\": \"1974-03-23T11:03:37.470Z\",\n      \"description\": \"stringstringstring\",\n      \"assignee\": \"0h8ljc85x0m-m-si3t-i8iojyxumz\",\n      \"updatedAt\": \"1986-09-26T18:29:15.199Z\"\n    }\n  ],\n  \"page\": 1808,\n  \"limit\": 2043,\n  \"total\": 4998\n}"
+                    },
+                    {
+                      "name": "The request is invalid or the resource was not found.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/tasks?title=string&description=string&status=completed&priority=medium&assignee=string&sort=assignee&order=asc&page=1&limit=10",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "tasks"
+                          ],
+                          "query": [
+                            {
+                              "key": "title",
+                              "value": "string"
+                            },
+                            {
+                              "key": "description",
+                              "value": "string"
+                            },
+                            {
+                              "key": "status",
+                              "value": "completed"
+                            },
+                            {
+                              "key": "priority",
+                              "value": "medium"
+                            },
+                            {
+                              "key": "assignee",
+                              "value": "string"
+                            },
+                            {
+                              "key": "sort",
+                              "value": "assignee"
+                            },
+                            {
+                              "key": "order",
+                              "value": "asc"
+                            },
+                            {
+                              "description": "Currently rejected as a string by query validation.",
+                              "key": "page",
+                              "value": "1"
+                            },
+                            {
+                              "description": "Currently rejected as a string by query validation.",
+                              "key": "limit",
+                              "value": "10"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"success\": false,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}"
+                    },
+                    {
+                      "name": "An unexpected server error occurred.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/tasks?title=string&description=string&status=completed&priority=medium&assignee=string&sort=assignee&order=asc&page=1&limit=10",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "tasks"
+                          ],
+                          "query": [
+                            {
+                              "key": "title",
+                              "value": "string"
+                            },
+                            {
+                              "key": "description",
+                              "value": "string"
+                            },
+                            {
+                              "key": "status",
+                              "value": "completed"
+                            },
+                            {
+                              "key": "priority",
+                              "value": "medium"
+                            },
+                            {
+                              "key": "assignee",
+                              "value": "string"
+                            },
+                            {
+                              "key": "sort",
+                              "value": "assignee"
+                            },
+                            {
+                              "key": "order",
+                              "value": "asc"
+                            },
+                            {
+                              "description": "Currently rejected as a string by query validation.",
+                              "key": "page",
+                              "value": "1"
+                            },
+                            {
+                              "description": "Currently rejected as a string by query validation.",
+                              "key": "limit",
+                              "value": "10"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"error\": \"Internal Server Error\"\n}"
+                    }
+                  ]
+                },
+                {
+                  "name": "Create a task",
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"title\": \"Prepare release notes\",\n  \"description\": \"Collect the changes and prepare notes for the next release.\",\n  \"status\": \"pending\",\n  \"priority\": \"medium\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/v1/tasks",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "tasks"
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "The task response.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"title\": \"Prepare release notes\",\n  \"description\": \"Collect the changes and prepare notes for the next release.\",\n  \"status\": \"pending\",\n  \"priority\": \"medium\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/tasks",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "tasks"
+                          ]
+                        }
+                      },
+                      "status": "Created",
+                      "code": 201,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": \"7138f7d9-bb6c-4fc3-a631-7a8ba0108784\",\n    \"title\": \"Prepare the weekly project update\",\n    \"status\": \"completed\",\n    \"priority\": \"low\",\n    \"createdAt\": \"2026-09-28T08:16:22.742Z\"\n  }\n}"
+                    },
+                    {
+                      "name": "The request is invalid or the resource was not found.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"title\": \"Prepare release notes\",\n  \"description\": \"Collect the changes and prepare notes for the next release.\",\n  \"status\": \"pending\",\n  \"priority\": \"medium\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/tasks",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "tasks"
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"success\": false,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}"
+                    },
+                    {
+                      "name": "An unexpected server error occurred.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"title\": \"Prepare release notes\",\n  \"description\": \"Collect the changes and prepare notes for the next release.\",\n  \"status\": \"pending\",\n  \"priority\": \"medium\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/tasks",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "tasks"
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n  \"error\": \"Internal Server Error\"\n}"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "reports",
+              "item": [
+                {
+                  "name": "summary",
+                  "item": [
+                    {
+                      "name": "Summarize tasks by status, priority, and assignee",
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/reports/summary",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "reports",
+                            "summary"
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "name": "Task counts grouped by status, priority, and assignee.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/reports/summary",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "reports",
+                                "summary"
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"success\": false,\n  \"data\": {\n    \"total\": 3480,\n    \"breakdown\": {\n      \"status\": {\n        \"key_0\": 7231,\n        \"key_1\": 4255,\n        \"key_2\": 2357,\n        \"key_3\": 3391\n      },\n      \"priority\": {\n        \"key_0\": 4205,\n        \"key_1\": 7776,\n        \"key_2\": 5551\n      },\n      \"assignee\": {\n        \"key_0\": 6492,\n        \"key_1\": 921\n      }\n    }\n  }\n}"
+                        },
+                        {
+                          "name": "An unexpected server error occurred.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/reports/summary",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "reports",
+                                "summary"
+                              ]
+                            }
+                          },
+                          "status": "Internal Server Error",
+                          "code": 500,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"error\": \"Internal Server Error\"\n}"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "{status}",
+                  "item": [
+                    {
+                      "name": "List tasks by status",
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/reports/:status?page=1&limit=10",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "reports",
+                            ":status"
+                          ],
+                          "query": [
+                            {
+                              "description": "Page number, from 1 to 99. Defaults to 1.",
+                              "key": "page",
+                              "value": "1"
+                            },
+                            {
+                              "description": "Page size, from 1 to 99. Defaults to 10.",
+                              "key": "limit",
+                              "value": "10"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "status",
+                              "value": "completed"
+                            }
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "name": "The task list response.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/reports/:status?page=1&limit=10",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "reports",
+                                ":status"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Page number, from 1 to 99. Defaults to 1.",
+                                  "key": "page",
+                                  "value": "1"
+                                },
+                                {
+                                  "description": "Page size, from 1 to 99. Defaults to 10.",
+                                  "key": "limit",
+                                  "value": "10"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "status",
+                                  "value": "completed"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": \"e5314bec-3a00-bd8f-1327-8010c6e9785f\",\n      \"title\": \"string\",\n      \"status\": \"pending\",\n      \"priority\": \"low\",\n      \"createdAt\": \"1963-11-25T12:22:45.641Z\",\n      \"description\": \"stringstringstring\",\n      \"assignee\": \"pu4o2j-ahhcz\",\n      \"updatedAt\": \"1955-03-22T01:12:45.238Z\"\n    },\n    {\n      \"id\": \"87c249e7-3c89-53f8-8dcb-bb246050749f\",\n      \"title\": \"string\",\n      \"status\": \"pending\",\n      \"priority\": \"low\",\n      \"createdAt\": \"1974-03-23T11:03:37.470Z\",\n      \"description\": \"stringstringstring\",\n      \"assignee\": \"0h8ljc85x0m-m-si3t-i8iojyxumz\",\n      \"updatedAt\": \"1986-09-26T18:29:15.199Z\"\n    }\n  ],\n  \"page\": 1808,\n  \"limit\": 2043,\n  \"total\": 4998\n}"
+                        },
+                        {
+                          "name": "The request is invalid or the resource was not found.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/reports/:status?page=1&limit=10",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "reports",
+                                ":status"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Page number, from 1 to 99. Defaults to 1.",
+                                  "key": "page",
+                                  "value": "1"
+                                },
+                                {
+                                  "description": "Page size, from 1 to 99. Defaults to 10.",
+                                  "key": "limit",
+                                  "value": "10"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "status",
+                                  "value": "completed"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"success\": false,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}"
+                        },
+                        {
+                          "name": "An unexpected server error occurred.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/reports/:status?page=1&limit=10",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "reports",
+                                ":status"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Page number, from 1 to 99. Defaults to 1.",
+                                  "key": "page",
+                                  "value": "1"
+                                },
+                                {
+                                  "description": "Page size, from 1 to 99. Defaults to 10.",
+                                  "key": "limit",
+                                  "value": "10"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "status",
+                                  "value": "completed"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Internal Server Error",
+                          "code": 500,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n  \"error\": \"Internal Server Error\"\n}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "/"
+    }
+  ]
+}
