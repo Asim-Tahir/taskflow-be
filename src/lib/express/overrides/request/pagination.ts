@@ -1,13 +1,13 @@
 import {
-    PAGINATION_DEFAULT_LIMIT,
-    PAGINATION_DEFAULT_PAGE,
-    PAGINATION_MAX_LIMIT,
-    PAGINATION_MAX_PAGE,
-    PAGINATION_MIN_LIMIT,
-    PAGINATION_MIN_PAGE
+  PAGINATION_DEFAULT_LIMIT,
+  PAGINATION_DEFAULT_PAGE,
+  PAGINATION_MAX_LIMIT,
+  PAGINATION_MAX_PAGE,
+  PAGINATION_MIN_LIMIT,
+  PAGINATION_MIN_PAGE
 } from "#constants";
-import { validatePaginationQuery } from "#validators";
 import type { PaginationQuerySchema } from "#schema";
+import { validatePaginationQuery } from "#validators";
 
 import type { Request } from "express";
 

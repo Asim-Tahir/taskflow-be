@@ -1,10 +1,10 @@
 import * as z from "zod/mini";
 
 import {
-    PAGINATION_MAX_LIMIT,
-    PAGINATION_MAX_PAGE,
-    PAGINATION_MIN_LIMIT,
-    PAGINATION_MIN_PAGE
+  PAGINATION_MAX_LIMIT,
+  PAGINATION_MAX_PAGE,
+  PAGINATION_MIN_LIMIT,
+  PAGINATION_MIN_PAGE
 } from "#constants";
 
 export const paginationQuerySchema = z.partial(
