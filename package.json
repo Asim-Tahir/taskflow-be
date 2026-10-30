@@ -47,6 +47,8 @@
     "@types/node": "^24.19.2",
     "@types/swagger-ui-dist": "^3.30.6",
     "cross-env": "^10.1.0",
+    "oxlint": "^1.90.0",
+    "oxlint-tsgolint": "^7.0.2005",
     "typescript": "^7.0.2"
   },
   "engines": {
