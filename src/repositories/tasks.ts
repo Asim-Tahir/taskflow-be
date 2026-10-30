@@ -2,8 +2,13 @@ import type { Low } from "lowdb";
 import { JSONFilePreset } from "lowdb/node";
 
 import { TASKS_DATA_PATH } from "#constants";
-import type { TaskCreateSchema, TaskPartialUpdateSchema, TaskSchema, TaskUpdateSchema } from "#schema";
-import { Serializers } from '#utils';
+import type {
+  TaskCreateSchema,
+  TaskPartialUpdateSchema,
+  TaskSchema,
+  TaskUpdateSchema,
+} from "#schema";
+import { Serializers } from "#utils";
 
 import { FileSystemRepository, LowDBRepository } from "./base/index.ts";
 
@@ -21,44 +26,50 @@ export class TasksLowDBRepository extends LowDBRepository<TaskSchema> {
     return this.instance;
   }
 
-  async createAsync(entityOrEntityFactory: TaskCreateSchema | (() => TaskSchema)): Promise<TaskSchema> {
-    const createdEntity = typeof entityOrEntityFactory === "function" ? entityOrEntityFactory() : entityOrEntityFactory;
-    
+  async createAsync(
+    entityOrEntityFactory: TaskCreateSchema | (() => TaskSchema),
+  ): Promise<TaskSchema> {
+    const createdEntity =
+      typeof entityOrEntityFactory === "function" ? entityOrEntityFactory() : entityOrEntityFactory;
+
     return super.createAsync(() => ({
       ...createdEntity,
       id: this.generateId(),
       createdAt: new Date().toISOString(),
       updatedAt: undefined,
-      status: "pending"
+      status: "pending",
     }));
   }
 
   async updateAsync(
     id: TaskSchema["id"],
-    entityOrEntityFactory: TaskUpdateSchema | ((updatingTask: TaskSchema) => TaskSchema)
+    entityOrEntityFactory: TaskUpdateSchema | ((updatingTask: TaskSchema) => TaskSchema),
   ): Promise<TaskSchema> {
     return super.updateAsync(id, (updatingEntity) => {
-      const updatedEntity = typeof entityOrEntityFactory === "function" ? entityOrEntityFactory(updatingEntity) : entityOrEntityFactory;
+      const updatedEntity =
+        typeof entityOrEntityFactory === "function"
+          ? entityOrEntityFactory(updatingEntity)
+          : entityOrEntityFactory;
 
       return {
         ...updatedEntity,
         id,
         updatedAt: new Date().toISOString(),
-        createdAt: updatingEntity.createdAt
-      }
+        createdAt: updatingEntity.createdAt,
+      };
     });
   }
 
   async partialUpdateAsync(
     id: TaskSchema["id"],
-    entity: TaskPartialUpdateSchema
+    entity: TaskPartialUpdateSchema,
   ): Promise<TaskSchema> {
     return super.partialUpdateAsync(id, (updatingEntity) => ({
       ...updatingEntity,
       ...entity,
       id,
       updatedAt: new Date().toISOString(),
-    }))
+    }));
   }
 
   async getAllByAssigneeAsync(assignee: TaskSchema["assignee"]): Promise<TaskSchema[]> {
@@ -67,16 +78,13 @@ export class TasksLowDBRepository extends LowDBRepository<TaskSchema> {
     return assigneeTasks;
   }
 
-  async assignAsync(
-    id: TaskSchema["id"],
-    assignee: TaskSchema["assignee"]
-  ): Promise<TaskSchema> {
+  async assignAsync(id: TaskSchema["id"], assignee: TaskSchema["assignee"]): Promise<TaskSchema> {
     return super.partialUpdateAsync(id, (updatingEntity) => ({
       ...updatingEntity,
       assignee,
       id,
       updatedAt: new Date().toISOString(),
-    }))
+    }));
   }
 }
 
@@ -89,44 +97,50 @@ export class TasksFileSystemRepository extends FileSystemRepository<TaskSchema> 
     return this.instance;
   }
 
-  async createAsync(entityOrEntityFactory: TaskCreateSchema | (() => TaskSchema)): Promise<TaskSchema> {
-    const createdEntity = typeof entityOrEntityFactory === "function" ? entityOrEntityFactory() : entityOrEntityFactory;
-    
+  async createAsync(
+    entityOrEntityFactory: TaskCreateSchema | (() => TaskSchema),
+  ): Promise<TaskSchema> {
+    const createdEntity =
+      typeof entityOrEntityFactory === "function" ? entityOrEntityFactory() : entityOrEntityFactory;
+
     return super.createAsync(() => ({
       ...createdEntity,
       id: this.generateId(),
       createdAt: new Date().toISOString(),
       updatedAt: undefined,
-      status: "pending"
+      status: "pending",
     }));
   }
 
   async updateAsync(
     id: TaskSchema["id"],
-    entityOrEntityFactory: TaskUpdateSchema | ((updatingTask: TaskSchema) => TaskSchema)
+    entityOrEntityFactory: TaskUpdateSchema | ((updatingTask: TaskSchema) => TaskSchema),
   ): Promise<TaskSchema> {
     return super.updateAsync(id, (updatingEntity) => {
-      const updatedEntity = typeof entityOrEntityFactory === "function" ? entityOrEntityFactory(updatingEntity) : entityOrEntityFactory;
+      const updatedEntity =
+        typeof entityOrEntityFactory === "function"
+          ? entityOrEntityFactory(updatingEntity)
+          : entityOrEntityFactory;
 
       return {
         ...updatedEntity,
         id,
         updatedAt: new Date().toISOString(),
-        createdAt: updatingEntity.createdAt
-      }
+        createdAt: updatingEntity.createdAt,
+      };
     });
   }
 
   async partialUpdateAsync(
     id: TaskSchema["id"],
-    entity: TaskPartialUpdateSchema
+    entity: TaskPartialUpdateSchema,
   ): Promise<TaskSchema> {
     return super.partialUpdateAsync(id, (updatingEntity) => ({
       ...updatingEntity,
       ...entity,
       id,
       updatedAt: new Date().toISOString(),
-    }))
+    }));
   }
 
   async getAllByAssigneeAsync(assignee: TaskSchema["assignee"]): Promise<TaskSchema[]> {
@@ -135,15 +149,12 @@ export class TasksFileSystemRepository extends FileSystemRepository<TaskSchema> 
     return assigneeTasks;
   }
 
-  async assignAsync(
-    id: TaskSchema["id"],
-    assignee: TaskSchema["assignee"]
-  ): Promise<TaskSchema> {
+  async assignAsync(id: TaskSchema["id"], assignee: TaskSchema["assignee"]): Promise<TaskSchema> {
     return super.partialUpdateAsync(id, (updatingEntity) => ({
       ...updatingEntity,
       assignee,
       id,
       updatedAt: new Date().toISOString(),
-    }))
+    }));
   }
 }

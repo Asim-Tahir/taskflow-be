@@ -6,7 +6,9 @@ import { type Serializer, Serializers, readFile, writeFile } from "#utils";
 
 import type IBaseRepository from "./IBaseRepository.ts";
 
-export default class FileSystemRepository<T extends BaseEntitySchema = BaseEntitySchema> implements IBaseRepository<T>, AsyncDisposable {
+export default class FileSystemRepository<T extends BaseEntitySchema = BaseEntitySchema>
+  implements IBaseRepository<T>, AsyncDisposable
+{
   #filename: string;
   #defaultData: T[] = [];
   #serializer: Serializer<T[]>;
@@ -19,7 +21,7 @@ export default class FileSystemRepository<T extends BaseEntitySchema = BaseEntit
   constructor(
     filename: string,
     defaultData: T[],
-    serializer: Serializer<T[]> = Serializers.object
+    serializer: Serializer<T[]> = Serializers.object,
   ) {
     this.#filename = filename;
     this.#defaultData = defaultData;
@@ -32,7 +34,7 @@ export default class FileSystemRepository<T extends BaseEntitySchema = BaseEntit
   static open<T extends BaseEntitySchema = BaseEntitySchema>(
     filename: string,
     defaultData: T[],
-    serializer: Serializer<T[]> = Serializers.object
+    serializer: Serializer<T[]> = Serializers.object,
   ) {
     this.instance ??= new this(filename, defaultData, serializer);
 
@@ -56,7 +58,7 @@ export default class FileSystemRepository<T extends BaseEntitySchema = BaseEntit
       this.data = structuredClone(this.#defaultData);
       return this.data;
     }
-  };
+  }
 
   async writeFileAsync(): Promise<boolean> {
     try {
@@ -70,7 +72,7 @@ export default class FileSystemRepository<T extends BaseEntitySchema = BaseEntit
         return false;
       }
     }
-  };
+  }
 
   generateId(): T["id"] {
     return randomUUID();
@@ -86,9 +88,11 @@ export default class FileSystemRepository<T extends BaseEntitySchema = BaseEntit
     return entity;
   }
 
-  async createAsync(entityOrEntityFactory: Omit<T, keyof BaseEntitySchema> | (() => T)): Promise<T> {
+  async createAsync(
+    entityOrEntityFactory: Omit<T, keyof BaseEntitySchema> | (() => T),
+  ): Promise<T> {
     let createdEntity: T;
-    
+
     if (typeof entityOrEntityFactory === "function") {
       createdEntity = entityOrEntityFactory();
     } else {
@@ -96,7 +100,7 @@ export default class FileSystemRepository<T extends BaseEntitySchema = BaseEntit
         ...entityOrEntityFactory,
         id: this.generateId(),
         createdAt: new Date().toISOString(),
-        updatedAt: undefined
+        updatedAt: undefined,
       } as T;
     }
 
@@ -105,7 +109,10 @@ export default class FileSystemRepository<T extends BaseEntitySchema = BaseEntit
     return createdEntity;
   }
 
-  async updateAsync(id: T["id"], entityOrEntityFactory: Omit<T, keyof BaseEntitySchema> | ((updatingEntity: T) => T)): Promise<T> {
+  async updateAsync(
+    id: T["id"],
+    entityOrEntityFactory: Omit<T, keyof BaseEntitySchema> | ((updatingEntity: T) => T),
+  ): Promise<T> {
     const entityIndex = this.data.findIndex((entity) => entity.id === id);
 
     if (entityIndex < 0) {
@@ -114,7 +121,7 @@ export default class FileSystemRepository<T extends BaseEntitySchema = BaseEntit
 
     const updatingEntity = this.data[entityIndex];
     let updatedEntity: T;
-    
+
     if (typeof entityOrEntityFactory === "function") {
       updatedEntity = entityOrEntityFactory(updatingEntity);
     } else {
@@ -122,7 +129,7 @@ export default class FileSystemRepository<T extends BaseEntitySchema = BaseEntit
         ...entityOrEntityFactory,
         id,
         createdAt: updatingEntity.createdAt,
-        updatedAt: new Date().toISOString()
+        updatedAt: new Date().toISOString(),
       } as T;
     }
 
@@ -131,7 +138,10 @@ export default class FileSystemRepository<T extends BaseEntitySchema = BaseEntit
     return updatedEntity;
   }
 
-  async partialUpdateAsync(id: T["id"], entityOrEntityFactory: Partial<Omit<T, keyof BaseEntitySchema>> | ((updatingEntity: T) => T)): Promise<T> {
+  async partialUpdateAsync(
+    id: T["id"],
+    entityOrEntityFactory: Partial<Omit<T, keyof BaseEntitySchema>> | ((updatingEntity: T) => T),
+  ): Promise<T> {
     const entityIndex = this.data.findIndex((entity) => entity.id === id);
 
     if (entityIndex < 0) {
@@ -168,4 +178,4 @@ export default class FileSystemRepository<T extends BaseEntitySchema = BaseEntit
 
     return deletedEntity;
   }
-;}
+}

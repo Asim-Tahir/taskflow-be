@@ -10,7 +10,7 @@ import {
   validateTaskReportsStatusParams,
   validateTaskSearchQuery,
   validateTaskSortationQuery,
-  validateTaskUpdate
+  validateTaskUpdate,
 } from "#validators";
 
 const repository = await TasksLowDBRepository.open();
@@ -55,7 +55,7 @@ export const taskSearchQueryValidationMiddleware: RequestHandler = (req, res, ne
   }
 
   next();
-}
+};
 
 /**
  * Validate task id request params
@@ -74,13 +74,13 @@ export const taskIdParamsValidationMiddleware: RequestHandler = async (req, res,
   if (!task) {
     res.status(404).json({
       success: false,
-      errors: [`Task with ID ${id} not found`]
+      errors: [`Task with ID ${id} not found`],
     });
     return;
   }
 
   next();
-}
+};
 
 /**
  * Validate task assignee request params
@@ -99,13 +99,13 @@ export const taskAssigneeParamsValidationMiddleware: RequestHandler = async (req
   if (assigneeTasks.length <= 0) {
     res.status(404).json({
       success: false,
-      errors: [`Task with assignee "${assignee}" not found`]
+      errors: [`Task with assignee "${assignee}" not found`],
     });
     return;
   }
 
   next();
-}
+};
 
 /**
  * Validate assignee request params
@@ -119,7 +119,7 @@ export const assigneeParamsValidationMiddleware: RequestHandler = (req, res, nex
   }
 
   next();
-}
+};
 
 /**
  * Validate task create request body
@@ -133,7 +133,7 @@ export const taskCreateBodyValidationMiddleware: RequestHandler = (req, res, nex
   }
 
   next();
-}
+};
 
 /**
  * Validate task update request body
@@ -147,7 +147,7 @@ export const taskUpdateBodyValidationMiddleware: RequestHandler = (req, res, nex
   }
 
   next();
-}
+};
 
 /**
  * Validate task partial update request body
@@ -161,7 +161,7 @@ export const taskPartialUpdateBodyValidationMiddleware: RequestHandler = (req, r
   }
 
   next();
-}
+};
 
 /**
  * Validate task reports summary request params
@@ -175,4 +175,4 @@ export const taskReportsStatusParamsValidationMiddleware: RequestHandler = (req,
   }
 
   next();
-}
+};

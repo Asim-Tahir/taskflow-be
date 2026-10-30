@@ -25,7 +25,9 @@ export async function loadDotEnv() {
     }
 
     if (!isEnvFileExists && !isSubEnvFileExists) {
-      logger.warn(`No \`${styleText("bold", ".env")}\` or \`${styleText("bold", `.env.${ENV}`)}\` files found. Using default environment variables.`);
+      logger.warn(
+        `No \`${styleText("bold", ".env")}\` or \`${styleText("bold", `.env.${ENV}`)}\` files found. Using default environment variables.`,
+      );
     }
   } catch (error) {
     logger.error("Error loading environment variables:", error);

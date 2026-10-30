@@ -26,7 +26,7 @@ declare global {
            * @default 99
            */
           limit?: number;
-        }
+        };
       }
 
       interface PageInfo {
@@ -43,4 +43,4 @@ declare global {
   }
 }
 
-export { };
+export {};

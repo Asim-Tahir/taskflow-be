@@ -33,7 +33,10 @@ export default interface IBaseRepository<T extends BaseEntitySchema = BaseEntity
    * @param entityOrEntityFactory entity to update or entity factory to update
    * @returns updated {@link T entity}
    */
-  updateAsync(id: T["id"], entityOrEntityFactory: Omit<T, keyof BaseEntitySchema> | ((updatingEntity: T) => T)): Promise<T>;
+  updateAsync(
+    id: T["id"],
+    entityOrEntityFactory: Omit<T, keyof BaseEntitySchema> | ((updatingEntity: T) => T),
+  ): Promise<T>;
 
   /**
    * Partially update {@link T entity}
@@ -41,7 +44,10 @@ export default interface IBaseRepository<T extends BaseEntitySchema = BaseEntity
    * @param entityOrEntityFactory entity to partially update or entity factory to partially update
    * @returns partially updated {@link T entity}
    */
-  partialUpdateAsync(id: T["id"], entityOrEntityFactory: Partial<Omit<T, keyof BaseEntitySchema>> | ((updatingEntity: T) => T)): Promise<T>;
+  partialUpdateAsync(
+    id: T["id"],
+    entityOrEntityFactory: Partial<Omit<T, keyof BaseEntitySchema>> | ((updatingEntity: T) => T),
+  ): Promise<T>;
 
   /**
    * Delete {@link T entity} by {@link id}

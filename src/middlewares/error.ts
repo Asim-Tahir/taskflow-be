@@ -9,7 +9,7 @@ const errorMiddleware: ErrorRequestHandler = (err: Error, _req, res, next) => {
   logger.error(err.stack);
 
   res.status(500).json({
-    error: "Internal Server Error"
+    error: "Internal Server Error",
   });
 
   next(err);

@@ -19,7 +19,7 @@ export async function isFileExists(filePath: PathLike): Promise<boolean> {
 export async function readFile(filePath: PathLike): Promise<string> {
   try {
     const content = await fs.readFile(filePath, { flag: "r", encoding: "utf-8" });
-  
+
     return content;
   } catch {
     return "";

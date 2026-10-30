@@ -49,7 +49,7 @@ export const Serializers: Record<
   },
   map: {
     read: (v: string) => new Map(JSON.parse(v)),
-    write: (v: Map<any, any>) => JSON.stringify(Array.from((v).entries())),
+    write: (v: Map<any, any>) => JSON.stringify(Array.from(v.entries())),
   },
   set: {
     read: (v: string) => new Set(JSON.parse(v)),

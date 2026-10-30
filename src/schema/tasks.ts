@@ -11,10 +11,9 @@ export type TaskStatusSchema = z.infer<typeof taskStatusSchema>;
 export const taskPrioritySchema = z.enum(TaskPriority);
 export type TaskPrioritySchema = z.infer<typeof taskPrioritySchema>;
 
-export const taskAssigneeSchema = z.string().check(
-  z.minLength(3),
-  z.regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
-);
+export const taskAssigneeSchema = z
+  .string()
+  .check(z.minLength(3), z.regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/));
 
 export const taskSchema = z.safeExtend(baseEntitySchema, {
   title: z.string().check(z.minLength(3)),
@@ -45,7 +44,7 @@ export const taskPartialUpdateSchema = z.partial(taskUpdateSchema);
 export type TaskPartialUpdateSchema = z.infer<typeof taskPartialUpdateSchema>;
 
 export const taskReportsStatusParamsSchema = z.object({
-  status: taskStatusSchema
+  status: taskStatusSchema,
 });
 export type TaskReportsStatusParamsSchema = z.infer<typeof taskReportsStatusParamsSchema>;
 
@@ -55,25 +54,25 @@ export const taskFilterQuerySchema = z.partial(
     description: z.string().check(z.minLength(3)),
     status: taskStatusSchema,
     priority: taskPrioritySchema,
-    assignee: taskAssigneeSchema
-  })
+    assignee: taskAssigneeSchema,
+  }),
 );
 export type TaskFilterQuerySchema = z.infer<typeof taskFilterQuerySchema>;
 
 export const taskSearchQuerySchema = z.partial(
   z.object({
-    keyword: z.string()
-  })
+    keyword: z.string(),
+  }),
 );
 export type TaskSearchQuerySchema = z.infer<typeof taskSearchQuerySchema>;
 
 export const taskIdParamsSchema = z.object({
-  id: z.uuidv4()
+  id: z.uuidv4(),
 });
 export type TaskIdParamsSchema = z.infer<typeof taskIdParamsSchema>;
 
 export const taskAssigneeParamsSchema = z.object({
-  assignee: taskAssigneeSchema
+  assignee: taskAssigneeSchema,
 });
 export type TaskAssigneeParamsSchema = z.infer<typeof taskAssigneeParamsSchema>;
 
@@ -83,7 +82,7 @@ const orderFieldSchema = z.enum(SORTATION_ORDER_FIELDS);
 export const taskSortationQuerySchema = z.partial(
   z.object({
     sort: taskSortFieldSchema,
-    order: orderFieldSchema
-  })
+    order: orderFieldSchema,
+  }),
 );
 export type TaskSortationQuerySchema = z.infer<typeof taskSortationQuerySchema>;

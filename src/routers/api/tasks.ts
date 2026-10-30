@@ -4,7 +4,7 @@ import type { ParamsDictionary } from "express-serve-static-core";
 import {
   SORTATION_TASK_PRIORITY_ORDER,
   SORTATION_TASK_STATUS_ORDER,
-  TASK_UNASSIGNED_ASSIGNEE
+  TASK_UNASSIGNED_ASSIGNEE,
 } from "#constants";
 import {
   assigneeParamsValidationMiddleware,
@@ -16,7 +16,7 @@ import {
   taskPartialUpdateBodyValidationMiddleware,
   taskSearchQueryValidationMiddleware,
   taskSortationQueryValidationMiddleware,
-  taskUpdateBodyValidationMiddleware
+  taskUpdateBodyValidationMiddleware,
 } from "#middlewares";
 import { TasksLowDBRepository } from "#repositories";
 import type {
@@ -28,19 +28,32 @@ import type {
   TaskSchema,
   TaskSearchQuerySchema,
   TaskSortationQuerySchema,
-  TaskUpdateSchema
+  TaskUpdateSchema,
 } from "#schema";
 import type { ResponseBody, ResponseBodyPaginated } from "#types";
 
 const tasksRouter = Router();
 
-tasksRouter.get<ParamsDictionary, ResponseBodyPaginated<TaskSchema>, any, TaskFilterQuerySchema & TaskSortationQuerySchema>(
+tasksRouter.get<
+  ParamsDictionary,
+  ResponseBodyPaginated<TaskSchema>,
+  any,
+  TaskFilterQuerySchema & TaskSortationQuerySchema
+>(
   "/",
   paginationValidationMiddleware,
   taskSortationQueryValidationMiddleware,
   taskFilterQueryValidationMiddleware,
   async (req, res) => {
-    const { title, description, status, priority, assignee, sort = "title", order = "asc" } = req.query;
+    const {
+      title,
+      description,
+      status,
+      priority,
+      assignee,
+      sort = "title",
+      order = "asc",
+    } = req.query;
     const { page, limit, startIndex, endIndex } = req.paginate();
 
     const repository = await TasksLowDBRepository.open();
@@ -50,11 +63,17 @@ tasksRouter.get<ParamsDictionary, ResponseBodyPaginated<TaskSchema>, any, TaskFi
     let filteredTasks = structuredClone(tasks);
 
     if (title) {
-      filteredTasks = filteredTasks.filter((task) => task.title.toLocaleLowerCase("tr-TR").includes(title.toLocaleLowerCase("tr-TR")));
+      filteredTasks = filteredTasks.filter((task) =>
+        task.title.toLocaleLowerCase("tr-TR").includes(title.toLocaleLowerCase("tr-TR")),
+      );
     }
 
     if (description) {
-      filteredTasks = filteredTasks.filter((task) => task.description?.toLocaleLowerCase("tr-TR")?.includes?.(description?.toLocaleLowerCase("tr-TR")));
+      filteredTasks = filteredTasks.filter((task) =>
+        task.description
+          ?.toLocaleLowerCase("tr-TR")
+          ?.includes?.(description?.toLocaleLowerCase("tr-TR")),
+      );
     }
 
     if (status) {
@@ -87,19 +106,25 @@ tasksRouter.get<ParamsDictionary, ResponseBodyPaginated<TaskSchema>, any, TaskFi
             break;
 
           case "description":
-            comparison = collator.compare(taskA.description ?? '', taskB.description ?? '');
+            comparison = collator.compare(taskA.description ?? "", taskB.description ?? "");
             break;
 
           case "priority":
-            comparison = SORTATION_TASK_PRIORITY_ORDER[taskA.priority] - SORTATION_TASK_PRIORITY_ORDER[taskB.priority];
+            comparison =
+              SORTATION_TASK_PRIORITY_ORDER[taskA.priority] -
+              SORTATION_TASK_PRIORITY_ORDER[taskB.priority];
             break;
 
           case "status":
-            comparison = SORTATION_TASK_STATUS_ORDER[taskA.status] - SORTATION_TASK_STATUS_ORDER[taskB.status];
+            comparison =
+              SORTATION_TASK_STATUS_ORDER[taskA.status] - SORTATION_TASK_STATUS_ORDER[taskB.status];
             break;
 
           case "assignee":
-            comparison = collator.compare(taskA.assignee ?? TASK_UNASSIGNED_ASSIGNEE, taskB.assignee ?? TASK_UNASSIGNED_ASSIGNEE);
+            comparison = collator.compare(
+              taskA.assignee ?? TASK_UNASSIGNED_ASSIGNEE,
+              taskB.assignee ?? TASK_UNASSIGNED_ASSIGNEE,
+            );
             break;
 
           case "createdAt":
@@ -115,7 +140,7 @@ tasksRouter.get<ParamsDictionary, ResponseBodyPaginated<TaskSchema>, any, TaskFi
             if (!taskB.updatedAt) {
               comparison = -1;
               break;
-            };
+            }
 
             comparison = Date.parse(taskA.updatedAt) - Date.parse(taskB.updatedAt);
             break;
@@ -146,9 +171,9 @@ tasksRouter.get<ParamsDictionary, ResponseBodyPaginated<TaskSchema>, any, TaskSe
   taskSearchQueryValidationMiddleware,
   async (req, res) => {
     const { page, limit, startIndex, endIndex } = req.paginate();
-    
+
     const { keyword } = req.query;
-    
+
     const repository = await TasksLowDBRepository.open();
     // const repository = TasksFileSystemRepository.open();
     const tasks = await repository.getAllAsync();
@@ -157,7 +182,11 @@ tasksRouter.get<ParamsDictionary, ResponseBodyPaginated<TaskSchema>, any, TaskSe
 
     if (keyword) {
       const lowerKeyword = keyword.toLocaleLowerCase("tr-TR");
-      filteredTasks = filteredTasks.filter((task) => task.title.toLocaleLowerCase("tr-TR").includes(lowerKeyword) || task.description?.toLocaleLowerCase("tr-TR")?.includes(lowerKeyword));
+      filteredTasks = filteredTasks.filter(
+        (task) =>
+          task.title.toLocaleLowerCase("tr-TR").includes(lowerKeyword) ||
+          task.description?.toLocaleLowerCase("tr-TR")?.includes(lowerKeyword),
+      );
     }
 
     filteredTasks = filteredTasks.slice(startIndex, endIndex);
@@ -169,7 +198,7 @@ tasksRouter.get<ParamsDictionary, ResponseBodyPaginated<TaskSchema>, any, TaskSe
       limit,
       total: tasks.length,
     });
-  }
+  },
 );
 
 tasksRouter.get<TaskIdParamsSchema, ResponseBody<TaskSchema | null>, TaskSchema>(
@@ -184,9 +213,9 @@ tasksRouter.get<TaskIdParamsSchema, ResponseBody<TaskSchema | null>, TaskSchema>
 
     res.status(200).json({
       success: true,
-      data: task ?? null
+      data: task ?? null,
     });
-  }
+  },
 );
 
 tasksRouter.post<ParamsDictionary, ResponseBody<TaskSchema>, TaskCreateSchema>(
@@ -201,9 +230,9 @@ tasksRouter.post<ParamsDictionary, ResponseBody<TaskSchema>, TaskCreateSchema>(
 
     res.status(201).json({
       success: true,
-      data: createdTask
+      data: createdTask,
     });
-  }
+  },
 );
 
 tasksRouter.put<TaskIdParamsSchema, ResponseBody<TaskSchema>, TaskUpdateSchema>(
@@ -220,9 +249,9 @@ tasksRouter.put<TaskIdParamsSchema, ResponseBody<TaskSchema>, TaskUpdateSchema>(
 
     res.status(200).json({
       success: true,
-      data: updatedTask
+      data: updatedTask,
     });
-  }
+  },
 );
 
 tasksRouter.patch<TaskIdParamsSchema, ResponseBody<TaskSchema>, TaskPartialUpdateSchema>(
@@ -239,10 +268,10 @@ tasksRouter.patch<TaskIdParamsSchema, ResponseBody<TaskSchema>, TaskPartialUpdat
 
     res.status(200).json({
       success: true,
-      data: partiallyUpdatedTask
+      data: partiallyUpdatedTask,
     });
-  }
-)
+  },
+);
 
 tasksRouter.delete<TaskIdParamsSchema, ResponseBody<TaskSchema>>(
   "/:id",
@@ -257,9 +286,9 @@ tasksRouter.delete<TaskIdParamsSchema, ResponseBody<TaskSchema>>(
     res.status(200).json({
       success: true,
       data: deletedTask,
-      message: `Task with ID "${id}" deleted`
+      message: `Task with ID "${id}" deleted`,
     });
-  }
+  },
 );
 
 tasksRouter.get<TaskAssigneeParamsSchema, ResponseBodyPaginated<TaskSchema>>(
@@ -288,7 +317,7 @@ tasksRouter.get<TaskAssigneeParamsSchema, ResponseBodyPaginated<TaskSchema>>(
       limit,
       total: tasks.length,
     });
-  }
+  },
 );
 
 tasksRouter.patch<TaskIdParamsSchema & TaskAssigneeParamsSchema, ResponseBody<TaskSchema>>(
@@ -304,9 +333,9 @@ tasksRouter.patch<TaskIdParamsSchema & TaskAssigneeParamsSchema, ResponseBody<Ta
 
     res.status(200).json({
       success: true,
-      data: assignedTask
+      data: assignedTask,
     });
-  }
+  },
 );
 
 export default tasksRouter;

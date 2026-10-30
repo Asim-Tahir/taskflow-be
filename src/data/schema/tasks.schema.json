@@ -3,13 +3,7 @@
   "type": "array",
   "items": {
     "type": "object",
-    "required": [
-      "id",
-      "title",
-      "status",
-      "priority",
-      "createdAt"
-    ],
+    "required": ["id", "title", "status", "priority", "createdAt"],
     "properties": {
       "id": {
         "type": "string",
@@ -27,19 +21,12 @@
       },
       "status": {
         "type": "string",
-        "enum": [
-          "completed",
-          "pending"
-        ],
+        "enum": ["completed", "pending"],
         "description": "Status of the task"
       },
       "priority": {
         "type": "string",
-        "enum": [
-          "low",
-          "medium",
-          "high"
-        ],
+        "enum": ["low", "medium", "high"],
         "description": "Priority of the task"
       },
       "assignee": {

@@ -8,7 +8,7 @@ const healthRouter = Router();
 healthRouter.get<ParamsDictionary, ResponseBody<null>>("/", (_req, res) => {
   res.status(200).json({
     success: true,
-    data: null
+    data: null,
   });
 });
 

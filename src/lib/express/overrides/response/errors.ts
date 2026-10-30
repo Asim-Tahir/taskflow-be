@@ -11,10 +11,7 @@ import * as z from "zod/mini";
  * res.status(404).errors(result.error); // => res.status(400).json({ success: false, errors: [<zod error message>] })
  * ```
  */
-export function errors<T = unknown>(
-  this: Response,
-  zodError: z.core.$ZodError<T>
-): Response {
+export function errors<T = unknown>(this: Response, zodError: z.core.$ZodError<T>): Response {
   const errorMessages: string[] = [];
 
   for (const issue of zodError.issues) {
@@ -25,7 +22,7 @@ export function errors<T = unknown>(
 
   this.json({
     success: false,
-    errors: errorMessages
+    errors: errorMessages,
   });
 
   return this;

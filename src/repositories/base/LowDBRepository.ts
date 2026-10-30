@@ -8,7 +8,9 @@ import type { BaseEntitySchema } from "#schema";
 
 import type IBaseRepository from "./IBaseRepository.ts";
 
-export default class LowDBRepository<T extends BaseEntitySchema = BaseEntitySchema> implements IBaseRepository<T>, AsyncDisposable {
+export default class LowDBRepository<T extends BaseEntitySchema = BaseEntitySchema>
+  implements IBaseRepository<T>, AsyncDisposable
+{
   protected db: Low<T[]>;
 
   /**
@@ -24,10 +26,7 @@ export default class LowDBRepository<T extends BaseEntitySchema = BaseEntitySche
   // @ts-ignore
   static instance: LowDBRepository<T>;
 
-  static async open(
-    filename: string,
-    defaultData: BaseEntitySchema[] = []
-  ) {
+  static async open(filename: string, defaultData: BaseEntitySchema[] = []) {
     if (!this.db) {
       this.db = await JSONFilePreset<BaseEntitySchema[]>(filename, defaultData);
     }
@@ -75,9 +74,11 @@ export default class LowDBRepository<T extends BaseEntitySchema = BaseEntitySche
     return entity;
   }
 
-  async createAsync(entityOrEntityFactory: Omit<T, keyof BaseEntitySchema> | (() => T)): Promise<T> {
+  async createAsync(
+    entityOrEntityFactory: Omit<T, keyof BaseEntitySchema> | (() => T),
+  ): Promise<T> {
     let createdEntity: T;
-    
+
     if (typeof entityOrEntityFactory === "function") {
       createdEntity = entityOrEntityFactory();
     } else {
@@ -85,7 +86,7 @@ export default class LowDBRepository<T extends BaseEntitySchema = BaseEntitySche
         ...entityOrEntityFactory,
         id: this.generateId(),
         createdAt: new Date().toISOString(),
-        updatedAt: undefined
+        updatedAt: undefined,
       } as T;
     }
 
@@ -94,7 +95,10 @@ export default class LowDBRepository<T extends BaseEntitySchema = BaseEntitySche
     return createdEntity;
   }
 
-  async updateAsync(id: T["id"], entityOrEntityFactory: Omit<T, keyof BaseEntitySchema> | ((updatingEntity: T) => T)): Promise<T> {
+  async updateAsync(
+    id: T["id"],
+    entityOrEntityFactory: Omit<T, keyof BaseEntitySchema> | ((updatingEntity: T) => T),
+  ): Promise<T> {
     const entityIndex = this.db.data.findIndex((entity) => entity.id === id);
 
     if (entityIndex < 0) {
@@ -103,7 +107,7 @@ export default class LowDBRepository<T extends BaseEntitySchema = BaseEntitySche
 
     const updatingEntity = this.db.data[entityIndex];
     let updatedEntity: T;
-    
+
     if (typeof entityOrEntityFactory === "function") {
       updatedEntity = entityOrEntityFactory(updatingEntity);
     } else {
@@ -111,7 +115,7 @@ export default class LowDBRepository<T extends BaseEntitySchema = BaseEntitySche
         ...entityOrEntityFactory,
         id,
         createdAt: updatingEntity.createdAt,
-        updatedAt: new Date().toISOString()
+        updatedAt: new Date().toISOString(),
       } as T;
     }
 
@@ -120,7 +124,10 @@ export default class LowDBRepository<T extends BaseEntitySchema = BaseEntitySche
     return updatedEntity;
   }
 
-  async partialUpdateAsync(id: T["id"], entityOrEntityFactory: Partial<Omit<T, keyof BaseEntitySchema>> | ((updatingEntity: T) => T)): Promise<T> {
+  async partialUpdateAsync(
+    id: T["id"],
+    entityOrEntityFactory: Partial<Omit<T, keyof BaseEntitySchema>> | ((updatingEntity: T) => T),
+  ): Promise<T> {
     const entityIndex = this.db.data.findIndex((entity) => entity.id === id);
 
     if (entityIndex < 0) {

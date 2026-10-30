@@ -7,6 +7,6 @@ import { errors } from "./response/index.ts";
 app.request.paginate = paginate;
 // #endregion
 
-// #region Response 
+// #region Response
 app.response.errors = errors;
 // #endregion

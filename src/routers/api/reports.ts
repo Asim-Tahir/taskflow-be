@@ -5,7 +5,12 @@ import { TASK_UNASSIGNED_ASSIGNEE } from "#constants";
 import { TaskPriority, TaskStatus } from "#enums";
 import { taskReportsStatusParamsValidationMiddleware } from "#middlewares";
 import { TasksLowDBRepository } from "#repositories";
-import type { TaskPrioritySchema, TaskReportsStatusParamsSchema, TaskSchema, TaskStatusSchema } from "#schema";
+import type {
+  TaskPrioritySchema,
+  TaskReportsStatusParamsSchema,
+  TaskSchema,
+  TaskStatusSchema,
+} from "#schema";
 import type { ResponseBody, ResponseBodyPaginated } from "#types";
 
 const reportsRouter = Router();
@@ -16,7 +21,7 @@ interface ReportsSummaryResponseData {
     status: Record<TaskStatusSchema, number>;
     priority: Record<TaskPrioritySchema, number>;
     assignee: Record<string, number>;
-  }
+  };
 }
 
 reportsRouter.get<ParamsDictionary, ResponseBody<ReportsSummaryResponseData>>(
@@ -28,7 +33,10 @@ reportsRouter.get<ParamsDictionary, ResponseBody<ReportsSummaryResponseData>>(
 
     const groupedTasksByStatus = Map.groupBy(tasks, (task) => task.status);
     const groupedTasksByPriority = Map.groupBy(tasks, (task) => task.priority);
-    const groupedTasksByAssignee = Map.groupBy(tasks, (task) => task.assignee ?? TASK_UNASSIGNED_ASSIGNEE);
+    const groupedTasksByAssignee = Map.groupBy(
+      tasks,
+      (task) => task.assignee ?? TASK_UNASSIGNED_ASSIGNEE,
+    );
 
     const statusBreakdown: Record<TaskStatusSchema, number> = {
       [TaskStatus.Pending]: groupedTasksByStatus.get(TaskStatus.Pending)?.length ?? 0,
@@ -41,11 +49,14 @@ reportsRouter.get<ParamsDictionary, ResponseBody<ReportsSummaryResponseData>>(
       [TaskPriority.High]: groupedTasksByPriority.get(TaskPriority.High)?.length ?? 0,
     };
 
-    const assigneeBreakdown = Array.from(groupedTasksByAssignee.entries()).reduce((prev, [key, group]) => {
-      prev[key] = group?.length ?? 0;
+    const assigneeBreakdown = Array.from(groupedTasksByAssignee.entries()).reduce(
+      (prev, [key, group]) => {
+        prev[key] = group?.length ?? 0;
 
-      return prev;
-    }, {} as Record<string, number>);
+        return prev;
+      },
+      {} as Record<string, number>,
+    );
 
     res.status(200).json({
       success: true,
@@ -54,11 +65,11 @@ reportsRouter.get<ParamsDictionary, ResponseBody<ReportsSummaryResponseData>>(
         breakdown: {
           status: statusBreakdown,
           priority: priorityBreakdown,
-          assignee: assigneeBreakdown
+          assignee: assigneeBreakdown,
         },
-      }
+      },
     });
-  }
+  },
 );
 
 reportsRouter.get<TaskReportsStatusParamsSchema, ResponseBodyPaginated<TaskSchema>>(
@@ -86,7 +97,7 @@ reportsRouter.get<TaskReportsStatusParamsSchema, ResponseBodyPaginated<TaskSchem
       limit,
       total: statusTasks.length,
     });
-  }
+  },
 );
 
 export default reportsRouter;

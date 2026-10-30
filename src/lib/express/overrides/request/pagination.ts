@@ -4,7 +4,7 @@ import {
   PAGINATION_MAX_LIMIT,
   PAGINATION_MAX_PAGE,
   PAGINATION_MIN_LIMIT,
-  PAGINATION_MIN_PAGE
+  PAGINATION_MIN_PAGE,
 } from "#constants";
 import type { PaginationQuerySchema } from "#schema";
 import { validatePaginationQuery } from "#validators";
@@ -16,13 +16,13 @@ export function paginate(
   options: Express.Pagination.Options = {
     min: {
       limit: PAGINATION_MIN_LIMIT,
-      page: PAGINATION_MIN_PAGE
+      page: PAGINATION_MIN_PAGE,
     },
     max: {
       limit: PAGINATION_MAX_LIMIT,
-      page: PAGINATION_MAX_PAGE
-    }
-  }
+      page: PAGINATION_MAX_PAGE,
+    },
+  },
 ): Express.Pagination.PageInfo {
   const { min, max } = options;
 
@@ -33,14 +33,11 @@ export function paginate(
       page: PAGINATION_DEFAULT_PAGE,
       limit: PAGINATION_DEFAULT_LIMIT,
       startIndex: 0,
-      endIndex: PAGINATION_DEFAULT_LIMIT
+      endIndex: PAGINATION_DEFAULT_LIMIT,
     };
   }
 
-  const {
-    page = PAGINATION_DEFAULT_PAGE,
-    limit = PAGINATION_DEFAULT_LIMIT
-  } = result.data;
+  const { page = PAGINATION_DEFAULT_PAGE, limit = PAGINATION_DEFAULT_LIMIT } = result.data;
 
   const pageMin = min?.page ?? PAGINATION_MIN_PAGE;
   const pageMax = max?.page ?? PAGINATION_MAX_PAGE;
@@ -59,5 +56,5 @@ export function paginate(
     limit: safeLimit,
     startIndex,
     endIndex,
-  }
+  };
 }

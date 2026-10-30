@@ -1,6 +1,6 @@
 export interface ResponseBodyFail {
   success: false;
-  errors: string[]
+  errors: string[];
 }
 
 export interface ResponseBodySuccess<T = unknown> {

@@ -49,7 +49,9 @@ const loggerMiddleware: RequestHandler = (req, res, next) => {
       break;
   }
 
-  logger.log(`[${styledReqTimestamp}] ${styledReqMethod} ${styledReqOriginalUrl} from ${styledReqIp}`);
+  logger.log(
+    `[${styledReqTimestamp}] ${styledReqMethod} ${styledReqOriginalUrl} from ${styledReqIp}`,
+  );
 
   res.on("finish", () => {
     const resStatusCode = String(res.statusCode);
@@ -88,6 +90,6 @@ const loggerMiddleware: RequestHandler = (req, res, next) => {
   });
 
   next();
-}
+};
 
 export default loggerMiddleware;
