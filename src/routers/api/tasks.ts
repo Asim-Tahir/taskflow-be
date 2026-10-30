@@ -156,7 +156,8 @@ tasksRouter.get<ParamsDictionary, ResponseBodyPaginated<TaskSchema>, any, TaskSe
     let filteredTasks = structuredClone(tasks);
 
     if (keyword) {
-      filteredTasks = filteredTasks.filter((task) => task.title.includes(keyword) || task.description?.includes(keyword));
+      const lowerKeyword = keyword.toLocaleLowerCase("tr-TR");
+      filteredTasks = filteredTasks.filter((task) => task.title.toLocaleLowerCase("tr-TR").includes(lowerKeyword) || task.description?.toLocaleLowerCase("tr-TR")?.includes(lowerKeyword));
     }
 
     filteredTasks = filteredTasks.slice(startIndex, endIndex);
