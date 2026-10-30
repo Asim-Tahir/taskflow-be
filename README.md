@@ -82,22 +82,22 @@ See [all Postman and Swagger UI screenshots](docs/screenshots.md).
 
 #### HTTPS
 ```sh
-git clone https://github.com/Asim-Tahir/tnc-group-be-taskflow.git
+git clone https://github.com/Asim-Tahir/taskflow-be.git
 ```
 
 #### SSH
 ```sh
-git clone git@github.com:Asim-Tahir/tnc-group-be-taskflow.git
+git clone git@github.com:Asim-Tahir/taskflow-be.git
 ```
 
 #### GitHub CLI
 ```sh
-gh repo clone Asim-Tahir/tnc-group-be-taskflow
+gh repo clone Asim-Tahir/taskflow-be
 ```
 
 ### Change to the project directory:
 ```sh
-cd tnc-group-be-taskflow
+cd taskflow-be
 ```
 
 ### Install dependencies
