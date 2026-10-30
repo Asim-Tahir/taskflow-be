@@ -28,35 +28,35 @@ export const Serializers: Record<
   Serializer<any>
 > = {
   boolean: {
-    read: (v: any) => v === "true",
-    write: (v: any) => String(v),
+    read: (v: string) => v === "true",
+    write: (v: boolean) => String(v),
   },
   object: {
-    read: (v: any) => JSON.parse(v),
-    write: (v: any) => JSON.stringify(v),
+    read: (v: string) => JSON.parse(v),
+    write: (v: object) => JSON.stringify(v),
   },
   number: {
-    read: (v: any) => Number.parseFloat(v),
-    write: (v: any) => String(v),
+    read: (v: string) => Number.parseFloat(v),
+    write: (v: number) => String(v),
   },
   any: {
-    read: (v: any) => v,
+    read: (v: string) => v,
     write: (v: any) => String(v),
   },
   string: {
-    read: (v: any) => v,
-    write: (v: any) => String(v),
+    read: (v: string) => v,
+    write: (v: string) => v,
   },
   map: {
-    read: (v: any) => new Map(JSON.parse(v)),
-    write: (v: any) => JSON.stringify(Array.from((v as Map<any, any>).entries())),
+    read: (v: string) => new Map(JSON.parse(v)),
+    write: (v: Map<any, any>) => JSON.stringify(Array.from((v).entries())),
   },
   set: {
-    read: (v: any) => new Set(JSON.parse(v)),
-    write: (v: any) => JSON.stringify(Array.from(v as Set<any>)),
+    read: (v: string) => new Set(JSON.parse(v)),
+    write: (v: Set<any>) => JSON.stringify(Array.from(v)),
   },
   date: {
-    read: (v: any) => new Date(v),
-    write: (v: any) => (v as Date).toISOString(),
+    read: (v: string) => new Date(v),
+    write: (v: Date) => v.toISOString(),
   },
 };
