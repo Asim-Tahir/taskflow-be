@@ -1,5 +1,5 @@
-import * as z from "zod/mini";
 import type { Response } from "express";
+import * as z from "zod/mini";
 
 /**
  * Send formatted {@link z zod} errors to JSON response.
@@ -15,15 +15,17 @@ export function errors<T = unknown>(
   this: Response,
   zodError: z.core.$ZodError<T>
 ): Response {
-  const errors: string[] = [];
+  const errorMessages: string[] = [];
 
   for (const issue of zodError.issues) {
-    errors.push(`${issue.path}: ${issue.message}`);
+    const path = issue.path.join(", ");
+
+    errorMessages.push(`${path}: ${issue.message}`);
   }
 
   this.json({
     success: false,
-    errors
+    errors: errorMessages
   });
 
   return this;

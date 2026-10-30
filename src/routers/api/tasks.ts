@@ -244,7 +244,7 @@ tasksRouter.patch<TaskIdParamsSchema, ResponseBody<TaskSchema>, TaskPartialUpdat
   }
 )
 
-tasksRouter.delete<TaskIdParamsSchema, ResponseBody<TaskSchema>, any>(
+tasksRouter.delete<TaskIdParamsSchema, ResponseBody<TaskSchema>>(
   "/:id",
   taskIdParamsValidationMiddleware,
   async (req, res) => {
@@ -262,7 +262,7 @@ tasksRouter.delete<TaskIdParamsSchema, ResponseBody<TaskSchema>, any>(
   }
 );
 
-tasksRouter.get<TaskAssigneeParamsSchema, ResponseBodyPaginated<TaskSchema>, any>(
+tasksRouter.get<TaskAssigneeParamsSchema, ResponseBodyPaginated<TaskSchema>>(
   "/assignee/:assignee",
   taskAssigneeParamsValidationMiddleware,
   async (req, res) => {
@@ -291,7 +291,7 @@ tasksRouter.get<TaskAssigneeParamsSchema, ResponseBodyPaginated<TaskSchema>, any
   }
 );
 
-tasksRouter.patch<TaskIdParamsSchema & TaskAssigneeParamsSchema, ResponseBody<TaskSchema>, any>(
+tasksRouter.patch<TaskIdParamsSchema & TaskAssigneeParamsSchema, ResponseBody<TaskSchema>>(
   "/:id/assign/:assignee",
   taskIdParamsValidationMiddleware,
   assigneeParamsValidationMiddleware,

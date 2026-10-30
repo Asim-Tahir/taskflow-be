@@ -5,7 +5,7 @@ import { PORT } from "#env";
 
 const baseUrl = `http://127.0.0.1:${PORT}`;
 
-test("serves an OpenAPI document for the task routes", async () => {
+void test("serves an OpenAPI document for the task routes", async () => {
   const response = await fetch(`${baseUrl}/openapi.json`);
   const document = await response.json();
 
@@ -13,7 +13,7 @@ test("serves an OpenAPI document for the task routes", async () => {
   assert.equal(document.openapi, "3.2.1");
   assert.equal(document.info.title, "Taskflow API");
   assert.deepEqual(document.servers, [{ url: "/", name: "v1" }]);
-  assert.deepEqual(Object.keys(document.paths).sort(), [
+  assert.deepEqual(Object.keys(document.paths).toSorted(), [
     "/api/v1/health",
     "/api/v1/reports/summary",
     "/api/v1/reports/{status}",
@@ -68,7 +68,7 @@ test("documents response contracts and request examples", async () => {
   );
 });
 
-test("serves Swagger UI", async () => {
+void test("serves Swagger UI", async () => {
   const response = await fetch(`${baseUrl}/swagger`);
   const html = await response.text();
 

@@ -2,6 +2,7 @@ import { Router } from "express";
 import type { ParamsDictionary } from "express-serve-static-core";
 
 import { TASK_UNASSIGNED_ASSIGNEE } from "#constants";
+import { TaskPriority, TaskStatus } from "#enums";
 import { taskReportsStatusParamsValidationMiddleware } from "#middlewares";
 import { TasksLowDBRepository } from "#repositories";
 import type { TaskPrioritySchema, TaskReportsStatusParamsSchema, TaskSchema, TaskStatusSchema } from "#schema";
@@ -18,7 +19,7 @@ interface ReportsSummaryResponseData {
   }
 }
 
-reportsRouter.get<ParamsDictionary, ResponseBody<ReportsSummaryResponseData>, any>(
+reportsRouter.get<ParamsDictionary, ResponseBody<ReportsSummaryResponseData>>(
   "/summary",
   async (_req, res) => {
     const repository = await TasksLowDBRepository.open();
@@ -29,17 +30,16 @@ reportsRouter.get<ParamsDictionary, ResponseBody<ReportsSummaryResponseData>, an
     const groupedTasksByPriority = Map.groupBy(tasks, (task) => task.priority);
     const groupedTasksByAssignee = Map.groupBy(tasks, (task) => task.assignee ?? TASK_UNASSIGNED_ASSIGNEE);
 
-    const statusBreakdown = Array.from(groupedTasksByStatus.entries()).reduce((prev, [key, group]) => {
-      prev[key] = group?.length ?? 0;
+    const statusBreakdown: Record<TaskStatusSchema, number> = {
+      [TaskStatus.Pending]: groupedTasksByStatus.get(TaskStatus.Pending)?.length ?? 0,
+      [TaskStatus.Completed]: groupedTasksByStatus.get(TaskStatus.Completed)?.length ?? 0,
+    };
 
-      return prev;
-    }, {} as Record<TaskStatusSchema, number>);
-
-    const priorityBreakdown = Array.from(groupedTasksByPriority.entries()).reduce((prev, [key, group]) => {
-      prev[key] = group?.length ?? 0;
-
-      return prev;
-    }, {} as Record<TaskPrioritySchema, number>);
+    const priorityBreakdown: Record<TaskPrioritySchema, number> = {
+      [TaskPriority.Low]: groupedTasksByPriority.get(TaskPriority.Low)?.length ?? 0,
+      [TaskPriority.Medium]: groupedTasksByPriority.get(TaskPriority.Medium)?.length ?? 0,
+      [TaskPriority.High]: groupedTasksByPriority.get(TaskPriority.High)?.length ?? 0,
+    };
 
     const assigneeBreakdown = Array.from(groupedTasksByAssignee.entries()).reduce((prev, [key, group]) => {
       prev[key] = group?.length ?? 0;
@@ -61,7 +61,7 @@ reportsRouter.get<ParamsDictionary, ResponseBody<ReportsSummaryResponseData>, an
   }
 );
 
-reportsRouter.get<TaskReportsStatusParamsSchema, ResponseBodyPaginated<TaskSchema>, any>(
+reportsRouter.get<TaskReportsStatusParamsSchema, ResponseBodyPaginated<TaskSchema>>(
   "/:status",
   taskReportsStatusParamsValidationMiddleware,
   async (req, res) => {

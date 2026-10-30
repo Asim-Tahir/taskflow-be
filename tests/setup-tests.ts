@@ -1,9 +1,9 @@
-import type { IncomingMessage, Server, ServerResponse } from "http";
+import type { Server } from "http";
 import { styleText } from "node:util";
 
 import { loadDotEnv } from "#utils";
 
-let server: Server<typeof IncomingMessage, typeof ServerResponse>;
+let server: Server;
 
 /**
  * Setup shared resources, state, or environment

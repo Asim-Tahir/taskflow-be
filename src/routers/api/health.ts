@@ -5,7 +5,7 @@ import type { ResponseBody } from "#types";
 
 const healthRouter = Router();
 
-healthRouter.get<ParamsDictionary, ResponseBody<null>, any>("/", (_req, res) => {
+healthRouter.get<ParamsDictionary, ResponseBody<null>>("/", (_req, res) => {
   res.status(200).json({
     success: true,
     data: null

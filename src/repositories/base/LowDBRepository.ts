@@ -1,3 +1,4 @@
+// oxlint-disable typescript/no-unsafe-type-assertion
 import { randomUUID } from "node:crypto";
 
 import type { Low } from "lowdb";
@@ -23,14 +24,12 @@ export default class LowDBRepository<T extends BaseEntitySchema = BaseEntitySche
   // @ts-ignore
   static instance: LowDBRepository<T>;
 
-  static async open<
-    T extends BaseEntitySchema = BaseEntitySchema,
-  >(
+  static async open(
     filename: string,
-    defaultData: T[] = []
+    defaultData: BaseEntitySchema[] = []
   ) {
     if (!this.db) {
-      this.db = await JSONFilePreset<T[]>(filename, defaultData);
+      this.db = await JSONFilePreset<BaseEntitySchema[]>(filename, defaultData);
     }
 
     this.instance ??= new this(this.db);
@@ -55,7 +54,7 @@ export default class LowDBRepository<T extends BaseEntitySchema = BaseEntitySche
   }
 
   generateId(): T["id"] {
-    return randomUUID() as T["id"];
+    return randomUUID();
   }
 
   async getAllAsync(): Promise<T[]> {
@@ -71,12 +70,12 @@ export default class LowDBRepository<T extends BaseEntitySchema = BaseEntitySche
   }
 
   async getByIdAsync(id: T["id"]): Promise<T | undefined> {
-    const entity = this.db.data.find((entity) => entity.id === id);
+    const entity = this.db.data.find((e) => e.id === id);
 
     return entity;
   }
 
-  async createAsync(entityOrEntityFactory: Omit<T, "id" | "createdAt" | "updatedAt"> | (() => T)): Promise<T> {
+  async createAsync(entityOrEntityFactory: Omit<T, keyof BaseEntitySchema> | (() => T)): Promise<T> {
     let createdEntity: T;
     
     if (typeof entityOrEntityFactory === "function") {
@@ -95,11 +94,11 @@ export default class LowDBRepository<T extends BaseEntitySchema = BaseEntitySche
     return createdEntity;
   }
 
-  async updateAsync(id: T["id"], entityOrEntityFactory: Omit<T, "id" | "createdAt" | "updatedAt"> | ((updatingEntity: T) => T)): Promise<T> {
+  async updateAsync(id: T["id"], entityOrEntityFactory: Omit<T, keyof BaseEntitySchema> | ((updatingEntity: T) => T)): Promise<T> {
     const entityIndex = this.db.data.findIndex((entity) => entity.id === id);
 
     if (entityIndex < 0) {
-      throw new Error(`Entity with ID "${String(id)}" not found`);
+      throw new Error(`Entity with ID "${id}" not found`);
     }
 
     const updatingEntity = this.db.data[entityIndex];
@@ -121,11 +120,11 @@ export default class LowDBRepository<T extends BaseEntitySchema = BaseEntitySche
     return updatedEntity;
   }
 
-  async partialUpdateAsync(id: T["id"], entityOrEntityFactory: Partial<Omit<T, "id" | "createdAt" | "updatedAt">> | ((updatingEntity: T) => T)): Promise<T> {
+  async partialUpdateAsync(id: T["id"], entityOrEntityFactory: Partial<Omit<T, keyof BaseEntitySchema>> | ((updatingEntity: T) => T)): Promise<T> {
     const entityIndex = this.db.data.findIndex((entity) => entity.id === id);
 
     if (entityIndex < 0) {
-      throw new Error(`Entity with ID "${String(id)}" not found`);
+      throw new Error(`Entity with ID "${id}" not found`);
     }
 
     const partialUpdatingEntity = this.db.data[entityIndex];
@@ -139,7 +138,7 @@ export default class LowDBRepository<T extends BaseEntitySchema = BaseEntitySche
         ...entityOrEntityFactory,
         id,
         updatedAt: new Date().toISOString(),
-      } as T;
+      };
     }
 
     this.db.data[entityIndex] = partialUpdatedEntity;
@@ -151,7 +150,7 @@ export default class LowDBRepository<T extends BaseEntitySchema = BaseEntitySche
     const entityIndex = this.db.data.findIndex((entity) => entity.id === id);
 
     if (entityIndex < 0) {
-      throw new Error(`Entity with ID "${String(id)}" not found`);
+      throw new Error(`Entity with ID "${id}" not found`);
     }
 
     const [deletedEntity] = this.db.data.splice(entityIndex, 1);

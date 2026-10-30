@@ -1,3 +1,4 @@
+// oxlint-disable typescript/no-unsafe-type-assertion
 import { randomUUID } from "node:crypto";
 
 import type { BaseEntitySchema } from "#schema";
@@ -72,7 +73,7 @@ export default class FileSystemRepository<T extends BaseEntitySchema = BaseEntit
   };
 
   generateId(): T["id"] {
-    return randomUUID() as T["id"];
+    return randomUUID();
   }
 
   async getAllAsync(): Promise<T[]> {
@@ -80,12 +81,12 @@ export default class FileSystemRepository<T extends BaseEntitySchema = BaseEntit
   }
 
   async getByIdAsync(id: T["id"]): Promise<T | undefined> {
-    const entity = this.data.find((entity) => entity.id === id);
+    const entity = this.data.find((e) => e.id === id);
 
     return entity;
   }
 
-  async createAsync(entityOrEntityFactory: Omit<T, "id" | "createdAt" | "updatedAt"> | (() => T)): Promise<T> {
+  async createAsync(entityOrEntityFactory: Omit<T, keyof BaseEntitySchema> | (() => T)): Promise<T> {
     let createdEntity: T;
     
     if (typeof entityOrEntityFactory === "function") {
@@ -104,11 +105,11 @@ export default class FileSystemRepository<T extends BaseEntitySchema = BaseEntit
     return createdEntity;
   }
 
-  async updateAsync(id: T["id"], entityOrEntityFactory: Omit<T, "id" | "createdAt" | "updatedAt"> | ((updatingEntity: T) => T)): Promise<T> {
+  async updateAsync(id: T["id"], entityOrEntityFactory: Omit<T, keyof BaseEntitySchema> | ((updatingEntity: T) => T)): Promise<T> {
     const entityIndex = this.data.findIndex((entity) => entity.id === id);
 
     if (entityIndex < 0) {
-      throw new Error(`Entity with ID "${String(id)}" not found`);
+      throw new Error(`Entity with ID "${id}" not found`);
     }
 
     const updatingEntity = this.data[entityIndex];
@@ -130,11 +131,11 @@ export default class FileSystemRepository<T extends BaseEntitySchema = BaseEntit
     return updatedEntity;
   }
 
-  async partialUpdateAsync(id: T["id"], entityOrEntityFactory: Partial<Omit<T, "id" | "createdAt" | "updatedAt">> | ((updatingEntity: T) => T)): Promise<T> {
+  async partialUpdateAsync(id: T["id"], entityOrEntityFactory: Partial<Omit<T, keyof BaseEntitySchema>> | ((updatingEntity: T) => T)): Promise<T> {
     const entityIndex = this.data.findIndex((entity) => entity.id === id);
 
     if (entityIndex < 0) {
-      throw new Error(`Entity with ID "${String(id)}" not found`);
+      throw new Error(`Entity with ID "${id}" not found`);
     }
 
     const partialUpdatingEntity = this.data[entityIndex];
@@ -148,7 +149,7 @@ export default class FileSystemRepository<T extends BaseEntitySchema = BaseEntit
         ...entityOrEntityFactory,
         id,
         updatedAt: new Date().toISOString(),
-      } as T;
+      };
     }
 
     this.data[entityIndex] = partialUpdatedEntity;
@@ -160,7 +161,7 @@ export default class FileSystemRepository<T extends BaseEntitySchema = BaseEntit
     const entityIndex = this.data.findIndex((entity) => entity.id === id);
 
     if (entityIndex < 0) {
-      throw new Error(`Entity with ID "${String(id)}" not found`);
+      throw new Error(`Entity with ID "${id}" not found`);
     }
 
     const [deletedEntity] = this.data.splice(entityIndex, 1);
