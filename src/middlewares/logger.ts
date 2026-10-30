@@ -53,7 +53,7 @@ const loggerMiddleware: RequestHandler = (req, res, next) => {
 
   res.on("finish", () => {
     const resStatusCode = String(res.statusCode);
-    const resStatusMessage = String(res.statusMessage || "OK");
+    const resStatusMessage = res.statusMessage || "OK";
     const resTimestamp = new Date().toISOString();
 
     const styledResTimestamp = styleText("gray", resTimestamp);
