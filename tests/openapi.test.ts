@@ -19,9 +19,9 @@ test("serves an OpenAPI document for the task routes", async () => {
     "/api/v1/reports/{status}",
     "/api/v1/tasks",
     "/api/v1/tasks/assignee/{assignee}",
-    "/api/v1/tasks/{id}/assign/{assignee}",
     "/api/v1/tasks/search",
-    "/api/v1/tasks/{id}"
+    "/api/v1/tasks/{id}",
+    "/api/v1/tasks/{id}/assign/{assignee}"
   ]);
   assert.ok(document.paths["/api/v1/tasks/{id}"].patch);
 });
