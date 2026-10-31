@@ -7,4 +7,5 @@ export default defineConfig({
   dbCredentials: {
     url: "./src/db/taskflow.db",
   },
+  verbose: true,
 })
