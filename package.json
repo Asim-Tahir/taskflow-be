@@ -25,6 +25,7 @@
     "db:generate": "drizzle-kit generate",
     "wrangler:types": "wrangler types .wrangler/types/index.d.ts",
     "wrangler:dev": "wrangler dev",
+    "wrangler:db:migrate": "wrangler d1 migrations apply",
     "wrangler:deploy": "wrangler deploy",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
