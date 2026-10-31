@@ -19,8 +19,8 @@
       "import": "./src/types/index.d.ts"
     },
     "#env": {
-      "default": "./src/constants/env.ts",
-      "import": "./src/constants/env.ts"
+      "default": "./src/constants/env/node.ts",
+      "import": "./src/constants/env/node.ts"
     },
     "#*": {
       "default": "./src/*/index.ts",
