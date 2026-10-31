@@ -39,6 +39,7 @@
     "db:migrate": "drizzle-kit migrate",
     "db:seed": "node scripts/db/seed.ts",
     "db:generate": "drizzle-kit generate",
+    "cf:types": "cf workers types",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "fmt": "oxfmt --check",
