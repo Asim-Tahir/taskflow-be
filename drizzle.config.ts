@@ -8,4 +8,5 @@ export default defineConfig({
     url: "./src/db/taskflow.db",
   },
   verbose: true,
+  breakpoints: true,
 })
