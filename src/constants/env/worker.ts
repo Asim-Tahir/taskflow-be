@@ -14,6 +14,11 @@ export const DEFAULT_PORT = 3000;
 export const PORT = parseInt(env.PORT || `${DEFAULT_PORT}`);
 
 /**
+ * Host address for the Worker
+*/
+export const HOST = ENV === "production" ? "0.0.0.0" : "127.0.0.1";
+
+/**
  * Current working directory
  */
 export const CWD = cwd();
