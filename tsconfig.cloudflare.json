@@ -20,6 +20,6 @@
   },
   "include": [
     "src/**/*.ts",
-    ".cloudflare/types/**/*.ts",
+    ".wrangler/types/**/*.ts",
   ]
 }
