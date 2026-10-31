@@ -10,8 +10,8 @@
     "#types": "./src/types/index.d.ts",
     "#env": {
       "workerd": "./src/constants/env/worker.ts",
-      "default": "./src/constants/env/node.ts",
-      "import": "./src/constants/env/node.ts"
+      "import": "./src/constants/env/node.ts",
+      "default": "./src/constants/env/node.ts"
     },
     "#*": "./src/*/index.ts",
     "#src/*": "./src/*.ts"
@@ -23,7 +23,9 @@
     "db:migrate": "drizzle-kit migrate",
     "db:seed": "node scripts/db/seed.ts",
     "db:generate": "drizzle-kit generate",
-    "cf:types": "cf workers types",
+    "wrangler:types": "wrangler types .wrangler/types/index.d.ts",
+    "wrangler:dev": "wrangler dev",
+    "wrangler:deploy": "wrangler deploy",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "fmt": "oxfmt --check",
@@ -38,7 +40,6 @@
   "devDependencies": {
     "@types/express": "^5.0.6",
     "@types/node": "^24.19.2",
-    "cf": "1.0.0-beta.26",
     "cross-env": "^10.1.0",
     "drizzle-kit": "1.0.0-rc.5",
     "oxfmt": "^0.75.0",

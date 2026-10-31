@@ -1,0 +1,20 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "taskflow",
+  "main": "./src/worker.ts",
+  "compatibility_date": "2026-10-30",
+  "vars": {
+    "WORKER_ENV": "production",
+    "PORT": "3000"
+  },
+  "assets": {
+    "directory": "./public"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "taskflow-db",
+      "database_id": "5d1c7e8b-e627-4606-96bd-a7c0db404e72"
+    }
+  ]
+}

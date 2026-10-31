@@ -76,3 +76,6 @@ node_modules/
 
 # SQLite
 **/*.db
+
+# Cloudflare
+**/.wrangler
