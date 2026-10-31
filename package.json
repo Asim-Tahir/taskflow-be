@@ -5,32 +5,16 @@
   "type": "module",
   "module": "src/index.ts",
   "imports": {
-    "#lib/*": {
-      "default": "./src/lib/*/index.ts",
-      "import": "./src/lib/*/index.ts"
-    },
-    "#pkg": {
-      "default": "./package.json",
-      "import": "./package.json"
-    },
-    "#types": {
-      "types": "./src/types/index.d.ts",
-      "default": "./src/types/index.d.ts",
-      "import": "./src/types/index.d.ts"
-    },
+    "#lib/*": "./src/lib/*/index.ts",
+    "#pkg": "./package.json",
+    "#types": "./src/types/index.d.ts",
     "#env": {
       "workerd": "./src/constants/env/worker.ts",
       "default": "./src/constants/env/node.ts",
       "import": "./src/constants/env/node.ts"
     },
-    "#*": {
-      "default": "./src/*/index.ts",
-      "import": "./src/*/index.ts"
-    },
-    "#src/*": {
-      "default": "./src/*.ts",
-      "import": "./src/*.ts"
-    }
+    "#*": "./src/*/index.ts",
+    "#src/*": "./src/*.ts"
   },
   "scripts": {
     "start": "cross-env NODE_ENV=production node src/index.ts",
