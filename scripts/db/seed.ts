@@ -6,7 +6,7 @@ import { SQLITE_DATABASE_PATH } from "#constants";
 import { tasksSchema } from "#db";
 import { TaskPriority, TaskStatus } from "#enums";
 
-const pick = <T>(values: readonly T[]) => values[Math.floor(Math.random() * values.length)]!;
+const pick = <T>(values: readonly T[]) => values[Math.floor(Math.random() * values.length)];
 
 async function main() {
   const db = drizzle(SQLITE_DATABASE_PATH);
@@ -69,4 +69,4 @@ async function main() {
   await db.insert(tasksSchema).values(tasks);
 }
 
-main();
+void main();
