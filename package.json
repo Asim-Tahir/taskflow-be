@@ -38,6 +38,7 @@
     "test": "cross-env NODE_ENV=test node --test-global-setup=./tests/setup-tests.ts --test",
     "db:migrate": "drizzle-kit migrate",
     "db:seed": "node scripts/db/seed.ts",
+    "db:generate": "drizzle-kit generate",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "fmt": "oxfmt --check",
