@@ -20,5 +20,6 @@
   },
   "include": [
     "*.config.ts",
+    "src/shims-env.d.ts"
   ]
 }
