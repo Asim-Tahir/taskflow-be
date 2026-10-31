@@ -14,7 +14,9 @@
     {
       "binding": "DB",
       "database_name": "taskflow-db",
-      "database_id": "5d1c7e8b-e627-4606-96bd-a7c0db404e72"
+      "database_id": "5d1c7e8b-e627-4606-96bd-a7c0db404e72",
+      "migrations_dir": "src/db/migrations",
+      "migrations_pattern": "src/db/migrations/*/migration.sql"
     }
   ]
 }
